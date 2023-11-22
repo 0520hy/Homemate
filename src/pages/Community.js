@@ -172,7 +172,7 @@ export default function RealtyList() {
 
           {getCurrentItems().map((article) => (
             <React.Fragment key={article.id}>
-              <ListItem alignItems="center" onClick={() => { navigate(`/details/${encodeURIComponent(article.title)}`) }}>
+              <ListItem alignItems="center" onClick={() => { navigate(`/article/${encodeURIComponent(article.id)}`) }}>
                 <div style={{ margin: '20px' }}>
                   <ListItemText
                     primary={<Typography variant="h5" style={{  fontSize: '1.5rem' }}>{article.title}</Typography>}
