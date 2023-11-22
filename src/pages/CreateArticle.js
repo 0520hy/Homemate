@@ -1,26 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Container, Grid, Typography, TextField, Divider, Button } from '@mui/material';
-import { useHistory } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function CreateArticle() {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleGoBack = () => {
-    history.goBack();
+    navigate(-1);
   };
+
+  const handleSubmit = async () => {
+    try {
+      const userId = 123; // 사용자의 실제 userId로 변경해주세요
+      const data = {
+        title: title,
+        content: content,
+        complain: 0
+      };
+
+      await axios.post(`http://ceprj.gachon.ac.kr:60014/article/create?userId=${userId}`, data);
+   
+      navigate('/main');
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2000);
+    } catch (error) {
+      
+      console.error(error);
+    }
+  };
+
   return (
-    <>
- <Grid item>
-          <ArrowBackIcon 
-          style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} 
-          onClick={handleGoBack}/>
-        </Grid>
-    <Container> 
+    <Container>
       <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px">
+        <Grid item>
+          <ArrowBackIcon style={{ fontSize: 30, cursor: 'pointer' }} onClick={handleGoBack} />
+        </Grid>
       </Grid>
       <Grid container alignItems="center" justifyContent="center" marginTop="40px">
         <Grid item>
@@ -39,6 +62,8 @@ export default function CreateArticle() {
             label="제목"
             variant="outlined"
             style={{ width: "100%", marginBottom: '10px' }}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Grid>
         
@@ -51,6 +76,8 @@ export default function CreateArticle() {
             multiline
             rows={20}
             style={{ width: "100%", marginBottom: '10px' }}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </Grid>
       
@@ -61,11 +88,19 @@ export default function CreateArticle() {
             style={{ fontSize: "20px", width: "250px" }}
             variant="contained" 
             endIcon={<SendIcon />}
+            onClick={handleSubmit}
           >
             확인
           </Button>
         </Grid>
       </Grid>
-    </Container></>
+      {showAlert && (
+        <Grid container justifyContent="center" marginTop="20px">
+          <Typography variant="body1" style={{ color: 'green' }}>
+            게시글이 작성되었습니다.
+          </Typography>
+        </Grid>
+      )}
+    </Container>
   );
 }
