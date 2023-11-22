@@ -15,10 +15,14 @@ export default function CreateArticle() {
   const handleGoBack = () => {
     navigate(-1);
   };
+  
+  const userId = localStorage.getItem('userId'); //로컬스토리지에서 userId가져오기
+  
+  console.log('userId:', userId);
 
   const handleSubmit = async () => {
     try {
-      const userId = 123; // 사용자의 실제 userId로 변경해주세요
+      
       const data = {
         title: title,
         content: content,
@@ -37,6 +41,9 @@ export default function CreateArticle() {
       console.error(error);
     }
   };
+
+
+
 
   return (
     <Container>
