@@ -17,8 +17,8 @@ export default function MyChatbot({onClose}) {
         <div>
           <Chatbot
             config={config}
-            messageParser={MessageParser}
-            actionProvider={ActionProvider}
+            messageParser={new MessageParser()}
+            actionProvider={new ActionProvider()}
           />
         </div>
       </div>
