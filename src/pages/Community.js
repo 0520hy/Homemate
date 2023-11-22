@@ -15,6 +15,9 @@ import Box from '@mui/material/Box';
 import { Pagination } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import DriveFileRenameOutlineTwoToneIcon from '@mui/icons-material/DriveFileRenameOutlineTwoTone';
+import Chip from '@mui/material/Chip';
+
 
 // 스타일링
 const Search = styled('div')(({ theme }) => ({
@@ -128,10 +131,11 @@ export default function RealtyList() {
 
   return (
     <>
-      <Grid container direction="column" justifyContent="center" alignItems="center">
+      <Grid container direction="column"  justifyContent="space-around" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
             <Grid item style={{ margin: '100px 50px 50px 50px' }}>
+             <div></div>
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
@@ -145,6 +149,11 @@ export default function RealtyList() {
                   onKeyPress={handleSearchKeyPress}
                 />
               </Search>
+              <Chip 
+                    size="medium"
+                    icon={<DriveFileRenameOutlineTwoToneIcon />} 
+                    label="글쓰기" 
+                  />
             </Grid>
           </AppBar>
         </Box>
@@ -152,22 +161,15 @@ export default function RealtyList() {
           <Grid style={{ margin: '20px', textAlign: 'left', fontWeight: 'bold', color: '#414141' }}>커뮤니티</Grid>
           <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
 
-          {getCurrentItems().map((building) => (
-            <React.Fragment key={building.id}>
-              <ListItem alignItems="center" onClick={()=>{navigate(`/details/${encodeURIComponent(building.buildingName)}`)}}>
+          {getCurrentItems().map((article) => (
+            <React.Fragment key={article.id}>
+              <ListItem alignItems="center" onClick={()=>{navigate(`/details/${encodeURIComponent(article.title)}`)}}>
                
                 
                 <div style={{ margin: '30px' }}>
                   <ListItemText
-                    primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
-                    
-                    secondary={
-                      <React.Fragment>
-                        <Typography>{building.address}</Typography>
-                      
-                      
-                      </React.Fragment>
-                    }
+                    primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{article.title}</Typography>}
+          
                   />
                 </div>
                 
