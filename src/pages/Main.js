@@ -82,7 +82,11 @@ export default function Main() {
     setShowChat(!showChat); // 챗봇 상태를 반전시킴
   };
   const realtyListNavigate = () => {
-    navigate('/realty-list'); // /realty-list 페이지로 이동
+    navigate('/realty-list'); // realty-list 페이지로 이동
+  };
+
+  const communitytNavigate = () => {
+    navigate('/community'); // community 페이지로 이동
   };
  
   
@@ -127,7 +131,10 @@ export default function Main() {
         </Grid>
         <Grid xs={6}>
           <GreyItem>
-            <img src="/images/button3.png" alt="" />
+            <img src="/images/button3.png" 
+            onClick={communitytNavigate}
+            alt="" />
+
           </GreyItem>
         </Grid>
       </Grid>
