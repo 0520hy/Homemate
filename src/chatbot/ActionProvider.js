@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ActionProvider = ({ createChatBotMessage, setState }) => {
+const ActionProvider = (props) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -24,9 +24,9 @@ const ActionProvider = ({ createChatBotMessage, setState }) => {
       return;
     }
 
-    const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
+    const botMessage = props.createChatBotMessage(questions[currentQuestionIndex]);
 
-    setState(prev => ({
+    props.setState(prev => ({
       ...prev,
       messages: [...prev.messages, botMessage],
     }));
