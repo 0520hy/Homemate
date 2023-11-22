@@ -167,7 +167,7 @@ export default function RealtyList() {
                   />
                 </div>
               </ListItem>
-              <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+             
               <Divider variant="inset" component="li" />
             </React.Fragment>
           ))}

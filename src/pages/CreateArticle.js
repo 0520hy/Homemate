@@ -31,7 +31,7 @@ export default function CreateArticle() {
 
       await axios.post(`http://ceprj.gachon.ac.kr:60014/article/create?userId=${userId}`, data);
    
-      navigate('/main');
+      navigate('/community');
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
@@ -47,10 +47,10 @@ export default function CreateArticle() {
 
   return (
     <Container>
-      <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px">
-        <Grid item>
-          <ArrowBackIcon style={{ fontSize: 30, cursor: 'pointer' }} onClick={handleGoBack} />
+      <Grid item>
+          <ArrowBackIcon style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
         </Grid>
+      <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px">
       </Grid>
       <Grid container alignItems="center" justifyContent="center" marginTop="40px">
         <Grid item>
