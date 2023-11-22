@@ -163,12 +163,11 @@ export default function RealtyList() {
               <ListItem alignItems="center" onClick={() => { navigate(`/details/${encodeURIComponent(article.title)}`) }}>
                 <div style={{ margin: '20px' }}>
                   <ListItemText
-                    primary={<Typography variant="h5" style={{ fontSize: '1.5rem' }}>{article.title}</Typography>}
-                  />fontWeight: 'bold', 
+                    primary={<Typography variant="h5" style={{  fontSize: '1.5rem' }}>{article.title}</Typography>}
+                  />
                 </div>
               </ListItem>
-             
-              <Divider variant="inset" component="li" />
+              <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
             </React.Fragment>
           ))}
 
