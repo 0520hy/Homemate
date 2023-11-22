@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-function ActionProvider(props) {
+const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 1; i < 5; i++) {
         try {
           const response = await axios.get(`http://ceprj.gachon.ac.kr:60014/chat/basic-question?index=${i}`);
           setQuestions(prevQuestions => [...prevQuestions, response.data]);
@@ -19,14 +20,25 @@ function ActionProvider(props) {
     fetchQuestions();
   }, []);
 
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex >= questions.length) {
+  useEffect(() => {
+    if (questions.length > 0) {
+      const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
+      setState(prev => ({
+        ...prev,
+        messages: [...prev.messages, botMessage],
+      }));
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+    }
+  }, [questions]);
+
+  const handleHello = () => {
+    if (questions.length === 0 || currentQuestionIndex >= questions.length) {
       return;
     }
 
-    const botMessage = props.createChatBotMessage(questions[currentQuestionIndex]);
+    const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
 
-    props.setState(prev => ({
+    setState(prev => ({
       ...prev,
       messages: [...prev.messages, botMessage],
     }));
@@ -34,9 +46,17 @@ function ActionProvider(props) {
     setCurrentQuestionIndex(prevIndex => prevIndex + 1);
   };
 
-  return {
-    handleNextQuestion,
-  };
+  return (
+    <div>
+      {React.Children.map(children, (child) => {
+        return React.cloneElement(child, {
+          actions: {
+            handleHello,
+          },
+        });
+      })}
+    </div>
+  );
 };
 
 export default ActionProvider;
