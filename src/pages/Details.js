@@ -29,13 +29,13 @@ export default function Details(props) {
 
   return (
     <>
-    <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px">
+    <ThemeProvider theme={defaultTheme}>
+      <Box sx={{ display: 'flex' }}>
+    <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
     <ArrowBackIcon
     onClick={handleGoBack}
     style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
   </Grid>
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Box
           component="main"

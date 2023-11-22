@@ -45,15 +45,15 @@ export default function CreateArticle() {
 
   return (
     <>
-      <Container>
-        <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px">
+        <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
           <Grid item>
             <ArrowBackIcon
               onClick={handleGoBack}
               style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
-            />
+              />
           </Grid>
         </Grid>
+              <Container>
         <Grid container alignItems="center" justifyContent="center" marginTop="40px">
           <Grid item>
             <AssignmentTwoToneIcon style={{ color: '#1976d2', fontSize: 60, marginRight: '10px' }} />
