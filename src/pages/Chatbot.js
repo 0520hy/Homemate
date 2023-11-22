@@ -1,5 +1,3 @@
-// MyChatbot.js
-
 import * as React from 'react';
 import Chatbot from 'react-chatbot-kit'
 import 'react-chatbot-kit/build/main.css'
@@ -19,8 +17,8 @@ export default function MyChatbot({onClose}) {
         <div>
           <Chatbot
             config={config}
-            messageParser={MessageParser}
-            actionProvider={ActionProvider}
+            messageParser={new MessageParser()}
+            actionProvider={new ActionProvider()}
           />
         </div>
       </div>
