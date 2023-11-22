@@ -128,7 +128,7 @@ export default function RealtyList() {
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
             <Grid item style={{ margin: '100px 50px 50px 50px' }}>
-              <Grid container alignItems="center">
+              <Grid container spacing={12} alignItems="center">
                 <Grid item xs={9}> {/* 변경 */}
                   <Search>
                     <SearchIconWrapper>
@@ -144,10 +144,10 @@ export default function RealtyList() {
                     />
                   </Search>
                 </Grid>
-                <Grid item xs={3} justifyContent="flex-end" display="flex"> {/* 변경 */}
-                  <Chip
-                    size="large" 
-                    icon={<DriveFileRenameOutlineTwoToneIcon />}
+                <Grid item xs={3} justifyContent="flex-end" display="flex"> 
+                <Chip
+                    style={{ fontSize: "20px", width: "160px", height: "50px"}}
+                    icon={<DriveFileRenameOutlineTwoToneIcon fontSize='large'/>}
                     label="글쓰기"
                   />
                 </Grid>
