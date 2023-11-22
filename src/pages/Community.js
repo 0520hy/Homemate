@@ -129,7 +129,7 @@ export default function RealtyList() {
 
   return (
     <>
-    <Grid item>
+     <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px">
     <ArrowBackIcon
     onClick={handleGoBack}
     style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
