@@ -8,7 +8,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 0; i < 5; i++) {
         try {
           const response = await axios.get(`http://ceprj.gachon.ac.kr:60014/chat/basic-question?index=${i}`);
           setQuestions(prevQuestions => [...prevQuestions, response.data]);
@@ -20,8 +20,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     fetchQuestions();
   }, []);
 
+  useEffect(() => {
+    if (questions.length > 0) {
+      const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
+      setState(prev => ({
+        ...prev,
+        messages: [...prev.messages, botMessage],
+      }));
+      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+    }
+  }, [questions]);
+
   const handleHello = () => {
-    if (questions.length === 0) {
+    if (questions.length === 0 || currentQuestionIndex >= questions.length) {
       return;
     }
 
