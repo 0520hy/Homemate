@@ -3,8 +3,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import SearchIcon from '@mui/icons-material/Search';
@@ -129,7 +127,7 @@ export default function RealtyList() {
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
             <Grid item style={{ margin: '100px 50px 50px 50px' }}>
               <Grid container spacing={12} alignItems="center">
-                <Grid item xs={9}> {/* 변경 */}
+                <Grid item xs={9}> 
                   <Search>
                     <SearchIconWrapper>
                       <SearchIcon />
@@ -149,6 +147,7 @@ export default function RealtyList() {
                     style={{ fontSize: "20px", width: "160px", height: "50px"}}
                     icon={<DriveFileRenameOutlineTwoToneIcon fontSize='large'/>}
                     label="글쓰기"
+                    onClick={()=>{navigate("/create-article")}}
                   />
                 </Grid>
               </Grid>

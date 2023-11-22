@@ -14,6 +14,7 @@ import SignIn from './pages/SignIn';
 import RealtyList from "./pages/RealtyList"
 import Details from './pages/Details';
 import Community from './pages/Community';
+import CreateArticle from './pages/CreateArticle';
 
 
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/realty-list" element={<><Header/><RealtyList/></>}/>
         <Route path='/details/:buildingName' element={<><Header/><Details/></>}/>
         <Route path='/community' element={<><Header/><Community/></>}/>
+        <Route path='/create-article' element={<><Header/><CreateArticle/></>}/>
  
       </Routes>
       
