@@ -9,7 +9,7 @@ import axios from 'axios';
 export default function CreateArticle() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
+
   
   const navigate = useNavigate();
   
@@ -19,8 +19,6 @@ export default function CreateArticle() {
   
   const userId = localStorage.getItem('userId'); //로컬스토리지에서 userId가져오기
   
-  console.log('userId:', userId);
-
   const handleSubmit = async () => {
     try {
       
@@ -33,19 +31,17 @@ export default function CreateArticle() {
       await axios.post(`http://ceprj.gachon.ac.kr:60014/article/create?userId=${userId}`, data);
    
       navigate('/community');
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 2000);
+      alert("게시글 작성이 완료되었습니다.")
     } catch (error) {
       
       console.error(error);
     }
   };
-
+ 
+  
   return (
     <>
-        <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
+        <Grid container  alignItems="center" justifyContent="flex-start" margin="30px">
           <Grid item>
             <ArrowBackIcon
               onClick={handleGoBack}
@@ -102,13 +98,8 @@ export default function CreateArticle() {
             </Button>
           </Grid>
         </Grid>
-        {showAlert && (
-          <Grid container justifyContent="center" marginTop="20px">
-            <Typography variant="body1" style={{ color: 'green' }}>
-              게시글이 작성되었습니다.
-            </Typography>
-          </Grid>
-        )}
+  
+      
       </Container>
     </>
   );

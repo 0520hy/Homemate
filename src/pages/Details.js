@@ -30,12 +30,12 @@ export default function Details(props) {
   return (
     <>
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: 'flex' }}>
     <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
     <ArrowBackIcon
     onClick={handleGoBack}
     style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
   </Grid>
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Box
           component="main"
