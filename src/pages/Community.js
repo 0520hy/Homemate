@@ -21,6 +21,8 @@ import Chip from '@mui/material/Chip';
 
 // 스타일링
 const Search = styled('div')(({ theme }) => ({
+  display: 'flex', // 추가: 검색창과 칩을 같은 라인에 위치시키기 위해 flex로 설정
+  alignItems: 'center', // 추가: 검색창과 칩을 수직 정렬
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -56,6 +58,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: '50ch',
     },
   },
+}));
+
+const ChipContainer = styled('div')(({ theme }) => ({
+  marginLeft: theme.spacing(2), // 추가: 칩의 왼쪽 여백 설정
 }));
 
 export default function RealtyList() {
@@ -149,11 +155,13 @@ export default function RealtyList() {
                   onKeyPress={handleSearchKeyPress}
                 />
               </Search>
-              <Chip 
-                    size="medium"
-                    icon={<DriveFileRenameOutlineTwoToneIcon />} 
-                    label="글쓰기" 
-                  />
+              <ChipContainer>
+                <Chip 
+                  size="medium"
+                  icon={<DriveFileRenameOutlineTwoToneIcon />} 
+                  label="글쓰기" 
+                />
+              </ChipContainer>
             </Grid>
           </AppBar>
         </Box>
