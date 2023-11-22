@@ -1,62 +1,47 @@
 import React from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 
-const ActionProvider = ({ createChatBotMessage, setState, children }) => {
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+class ActionProvider {
+  constructor(createChatbotMessage, setStateFunc) {
+    this.createChatbotMessage = createChatbotMessage;
+    this.setState = setStateFunc;
+    this.questions = [];
+    this.currentQuestionIndex = 0;
+  }
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      for (let i = 1; i < 5; i++) {
-        try {
-          const response = await axios.get(`http://ceprj.gachon.ac.kr:60014/chat/basic-question?index=${i}`);
-          setQuestions(prevQuestions => [...prevQuestions, response.data]);
-        } catch (error) {
-          console.log(error);
-        }
+  fetchQuestions = async () => {
+    for (let i = 1; i < 5; i++) {
+      try {
+        const response = await axios.get(`http://ceprj.gachon.ac.kr:60014/chat/basic-question?index=${i}`);
+        this.questions = [...this.questions, response.data];
+      } catch (error) {
+        console.log(error);
       }
-    };
-    fetchQuestions();
-  }, []);
-
-  useEffect(() => {
-    if (questions.length > 0) {
-      const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
-      setState(prev => ({
-        ...prev,
-        messages: [...prev.messages, botMessage],
-      }));
-      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     }
-  }, [questions]);
+    this.handleHello();
+  };
 
-  const handleHello = () => {
-    if (questions.length === 0 || currentQuestionIndex >= questions.length) {
+  handleHello = () => {
+    if (this.questions.length === 0 || this.currentQuestionIndex >= this.questions.length) {
       return;
     }
 
-    const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
+    const botMessage = this.createChatbotMessage(this.questions[this.currentQuestionIndex]);
 
-    setState(prev => ({
-      ...prev,
-      messages: [...prev.messages, botMessage],
+    this.setState(prevState => ({
+      ...prevState,
+      messages: [...prevState.messages, botMessage],
     }));
 
-    setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+    this.currentQuestionIndex += 1;
   };
 
-  return (
-    <div>
-      {React.Children.map(children, (child) => {
-        return React.cloneElement(child, {
-          actions: {
-            handleHello,
-          },
-        });
-      })}
-    </div>
-  );
-};
+  updateChatbotState = (message) => {
+    this.setState(prevState => ({
+      ...prevState,
+      messages: [...prevState.messages, message]
+    }));
+  }
+}
 
 export default ActionProvider;
