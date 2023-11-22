@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import { Pagination } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // 스타일링
 const Search = styled('div')(({ theme }) => ({
@@ -54,6 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
 
 export default function RealtyList() {
   const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
@@ -134,9 +136,19 @@ export default function RealtyList() {
       search();
     }
   };
+  
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+  
 
   return (
     <>
+    <Grid item>
+    <ArrowBackIcon
+    onClick={handleGoBack}
+    style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
+  </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">

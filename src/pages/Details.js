@@ -9,7 +9,8 @@ import Paper from '@mui/material/Paper';
 import Orders from '../components/Buildingdetail';
 import Swiper from '../components/Swiper';
 import { useParams } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const defaultTheme = createTheme();
@@ -19,9 +20,20 @@ export default function Details(props) {
 
   let { buildingName } = useParams();
   
- 
+  const navigate = useNavigate();
+  
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+  
 
   return (
+    <>
+    <Grid item>
+    <ArrowBackIcon
+    onClick={handleGoBack}
+    style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
+  </Grid>
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -54,5 +66,6 @@ export default function Details(props) {
         </Box>
       </Box>
     </ThemeProvider>
+    </>
   );
 }

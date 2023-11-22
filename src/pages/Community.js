@@ -15,6 +15,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import DriveFileRenameOutlineTwoToneIcon from '@mui/icons-material/DriveFileRenameOutlineTwoTone';
 import Chip from '@mui/material/Chip';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // 스타일링
 const Search = styled('div')(({ theme }) => ({
@@ -120,8 +121,19 @@ export default function RealtyList() {
     }
   };
 
+  
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+  
+
   return (
     <>
+    <Grid item>
+    <ArrowBackIcon
+    onClick={handleGoBack}
+    style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
+  </Grid>
       <Grid container direction="column" justifyContent="space-around" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">

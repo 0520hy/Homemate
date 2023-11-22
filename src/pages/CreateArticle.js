@@ -7,11 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function CreateArticle() {
-  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-
+  
+  const navigate = useNavigate();
+  
   const handleGoBack = () => {
     navigate(-1);
   };
