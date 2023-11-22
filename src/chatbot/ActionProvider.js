@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 
-const ActionProvider = ({ createChatBotMessage, setState, children }) => {
+const ActionProvider = ({ createChatBotMessage, setState }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -20,19 +19,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     fetchQuestions();
   }, []);
 
-  useEffect(() => {
-    if (questions.length > 0) {
-      const botMessage = createChatBotMessage(questions[currentQuestionIndex]);
-      setState(prev => ({
-        ...prev,
-        messages: [...prev.messages, botMessage],
-      }));
-      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-    }
-  }, [questions]);
-
-  const handleHello = () => {
-    if (questions.length === 0 || currentQuestionIndex >= questions.length) {
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex >= questions.length) {
       return;
     }
 
@@ -46,17 +34,9 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     setCurrentQuestionIndex(prevIndex => prevIndex + 1);
   };
 
-  return (
-    <div>
-      {React.Children.map(children, (child) => {
-        return React.cloneElement(child, {
-          actions: {
-            handleHello,
-          },
-        });
-      })}
-    </div>
-  );
+  return {
+    handleNextQuestion,
+  };
 };
 
 export default ActionProvider;
