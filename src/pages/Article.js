@@ -105,7 +105,7 @@ const deleteComment = async (commentId) => {
   try {
     const userId = localStorage.getItem('userId');
     const comment = data.comments.find((c) => c.id === commentId);
-    if (comment && comment.userId === parseInt(userId)) { // 작성자 권한 체크
+    if (comment && comment.userId.toString() === userId) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
           commentId: commentId
@@ -121,9 +121,11 @@ const deleteComment = async (commentId) => {
   }
 };
 
+
   
   return (
     <>
+    
       <Grid container maxWidth="lg" marginLeft="5vw">
         <Grid item>
           <ArrowBackIcon
@@ -185,12 +187,7 @@ const deleteComment = async (commentId) => {
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
-  <Box
-  sx={{
-  
-    marginBottom: '100px', // 댓글 입력창 아래 여백 추가
-  }}
->
+  <Box paddingBottom="100px">
   {data.comments && data.comments.map((comment, index) => (
   <div key={index}>
       <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
