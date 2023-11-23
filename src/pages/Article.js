@@ -154,7 +154,7 @@ export default function Article() {
       {data.nickName}
     </Typography>
     <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
-      날짜
+    {data.createAt && new Date(data.createAt[0], data.createAt[1] - 1, data.createAt[2]).toLocaleDateString()}
     </Typography> 
   </Grid>
 </Grid>
@@ -201,7 +201,7 @@ export default function Article() {
             {comment.content}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
-            날짜
+          {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
           </Typography>
         </Grid>
       </Grid>

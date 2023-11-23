@@ -137,7 +137,7 @@ export default function RealtyList() {
       <Grid container direction="column" justifyContent="space-around" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
-            <Grid item style={{ margin: '100px 50px 50px 50px' }}>
+            <Grid item style={{ margin: '50px 50px 50px 50px' }}>
               <Grid container spacing={12} alignItems="center">
                 <Grid item xs={9}> 
                   <Search>
@@ -178,6 +178,7 @@ export default function RealtyList() {
                     primary={<Typography variant="h5" style={{  fontSize: '1.5rem' }}>{article.title}</Typography>}
                   />
                 </div>
+                <div>{article.createAt}</div>
               </ListItem>
               <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
             </React.Fragment>
