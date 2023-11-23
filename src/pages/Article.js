@@ -103,7 +103,7 @@ const deleteArticle = async () => {
 const deleteComment = async (commentId, comment) => {
   try {
     const userId = localStorage.getItem('userId');
-    if (userId === comment.userId.toString()) { // 작성자 권한 체크
+    if (comment && userId === comment.userId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
           commentId: commentId
@@ -118,6 +118,7 @@ const deleteComment = async (commentId, comment) => {
     console.error(error);
   }
 };
+
 
 
 
