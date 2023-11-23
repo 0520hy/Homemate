@@ -11,7 +11,7 @@ export default function Article() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const { articleId } = useParams(); //url id
-console.log(articleId);
+  const [commentContent, setCommentContent] = useState('');
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +33,27 @@ console.log(articleId);
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+
+  const createComment = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.post('http://ceprj.gachon.ac.kr:60014/comment/create', {
+        articleId: articleId,
+        content: commentContent,
+        complain: 0
+      }, {
+        params: {
+          
+          userId: userId
+        }
+      });
+      
+    } catch (error) {
+      console.error(error);
+      
+    }
   };
 
   return (
@@ -104,7 +125,7 @@ console.log(articleId);
         
         <Grid item marginLeft="6vw">
           <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold'}}  align="left">
-            Re: {comment.nickname}
+            Re: {comment.nickName}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }}  align="left">
             {comment.content}
@@ -137,10 +158,12 @@ console.log(articleId);
     multiline
     fullWidth
     size="small"
+    value={commentContent} // 입력 값과 상태 연결
+    onChange={(e) => setCommentContent(e.target.value)} // 입력 이벤트 처리
     InputProps={{
       endAdornment: (
         <InputAdornment position="end">
-          <IconButton>
+          <IconButton onClick={createComment}> // 클릭 이벤트 연결
             <SendIcon />
           </IconButton>
         </InputAdornment>
