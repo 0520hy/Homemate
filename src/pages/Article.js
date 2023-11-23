@@ -66,7 +66,7 @@ console.log(articleId);
   </Grid>
   <Grid item>
     <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E' }}>
-      닉네임
+      {data.nickName}
     </Typography>
     <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
       날짜
@@ -77,10 +77,10 @@ console.log(articleId);
         <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
         
           <Grid item>
-            <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E', fontWeight: 'bold'}}>
+            <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E', fontWeight: 'bold'}}  align="left">
               {data.title}
             </Typography>
-            <Typography style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E' }}>
+            <Typography style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E' }}  align="left">
               {data.content}
             </Typography>
           </Grid>
@@ -98,16 +98,16 @@ console.log(articleId);
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
-  {data.comments && data.comments.map((comment, index) => (
+  {data.comments && data.comments.map((comments, index) => (
   <div key={index}>
       <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
         
         <Grid item marginLeft="6vw">
-          <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold'}}>
-            Re: {comment.nickname}
+          <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold'}}  align="left">
+            Re: {data.comments.nickname}
           </Typography>
-          <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }}>
-            {comment.content}
+          <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }}  align="left">
+            {data.comments.content}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
             날짜
