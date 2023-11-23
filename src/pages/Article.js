@@ -11,7 +11,7 @@ export default function Article() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const { articleId } = useParams(); //url id
-
+console.log(articleId);
 
   React.useEffect(() => {
     const fetchData = async () => {
