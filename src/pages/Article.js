@@ -99,12 +99,13 @@ const deleteArticle = async () => {
   }
 };
 
+
 // 댓글 삭제 api
 const deleteComment = async (commentId) => {
   try {
     const userId = localStorage.getItem('userId');
     const comment = data.comments.find((c) => c.id === commentId);
-    if (userId === comment.userId.toString()) { // 작성자 권한 체크
+    if (comment && userId === comment.userId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
           commentId: commentId
@@ -230,9 +231,7 @@ const deleteComment = async (commentId) => {
     multiline
     fullWidth
     size="small"
-    sx={{
-      backgroundColor: 'transparent', // 불투명한 배경 제거
-    }}
+
     value={commentContent} // 입력 값과 상태 연결
     onChange={(e) => setCommentContent(e.target.value)} // 입력 이벤트 처리
     InputProps={{
@@ -241,8 +240,13 @@ const deleteComment = async (commentId) => {
           <IconButton onClick={createComment}> 
             <SendIcon />
           </IconButton>
-        </InputAdornment>
-      )
+          </InputAdornment>
+      ),
+    }}
+    sx={{
+      '& .MuiFilledInput-root': {
+        backgroundColor: 'lightgray', // 배경색을 회색으로 설정
+      },
     }}
   />
 </Box>
