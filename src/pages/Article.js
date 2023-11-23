@@ -18,7 +18,7 @@ export default function Article() {
         `http://ceprj.gachon.ac.kr:60014/article/get`,
         {
           params: {
-            articleId: articleId
+            articleId: parseInt(articleId)
           }
         }
       );
