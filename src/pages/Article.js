@@ -98,16 +98,16 @@ console.log(articleId);
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
-  {data.comments && data.comments.map((comments, index) => (
+  {data.comments && data.comments.map((comment, index) => (
   <div key={index}>
       <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
         
         <Grid item marginLeft="6vw">
           <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold'}}  align="left">
-            Re: {data.comments.nickname}
+            Re: {comment.nickname}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }}  align="left">
-            {data.comments.content}
+            {comment.content}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
             날짜
@@ -126,7 +126,8 @@ console.log(articleId);
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
   </div>
-  ))}
+))}
+
   <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '70px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
