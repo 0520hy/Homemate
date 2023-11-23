@@ -79,46 +79,47 @@ export default function Article() {
       console.error(error);
     }
   };
-
- //게시글 삭제 api
-  const deleteArticle = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      if (userId === data.userId) { // 작성자 권한 체크
-        await axios.delete('http://ceprj.gachon.ac.kr:60014/article/delete', {
-          params: {
-            articleId: articleId
-          }
-        });
-        alert('게시글이 삭제되었습니다.');
-        navigate('/community'); // /community로 이동
-      } else {
-        alert('해당 게시글 작성자만 삭제할 수 있습니다.');
-      }
-    } catch (error) {
-      console.error(error);
+// 게시글 삭제 api
+const deleteArticle = async () => {
+  try {
+    const userId = localStorage.getItem('userId');
+    if (userId === data.userId.toString()) { // 작성자 권한 체크
+      await axios.delete('http://ceprj.gachon.ac.kr:60014/article/delete', {
+        params: {
+          articleId: articleId
+        }
+      });
+      alert('게시글이 삭제되었습니다.');
+      navigate('/community'); // /community로 이동
+    } else {
+      alert('해당 게시글 작성자만 삭제할 수 있습니다.');
     }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-  //게시글 삭제 api
-  const deleteComment = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      if (userId === data.userId) { // 작성자 권한 체크
-        await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
-          params: {
-            articleId: articleId
-          }
-        });
-        alert('댓글이 삭제되었습니다.');
-        
-      } else {
-        alert('해당 댓글 작성자만 삭제할 수 있습니다.');
-      }
-    } catch (error) {
-      console.error(error);
+// 댓글 삭제 api
+const deleteComment = async (commentId) => {
+  try {
+    const userId = localStorage.getItem('userId');
+    const comment = data.comments.find((c) => c.id === commentId);
+    if (userId === comment.userId.toString()) { // 작성자 권한 체크
+      await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
+        params: {
+          commentId: commentId
+        }
+      });
+      alert('댓글이 삭제되었습니다.');
+      fetchData(); // 데이터 다시 가져오기
+    } else {
+      alert('해당 댓글 작성자만 삭제할 수 있습니다.');
     }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   
   return (
     <>
