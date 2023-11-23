@@ -27,7 +27,7 @@ export default function Article() {
       }
     };
     fetchData();
-    console.log(data);
+    console.log("console:",data);
   }, [articleId]);
 
 
