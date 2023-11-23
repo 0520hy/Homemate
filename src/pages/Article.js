@@ -27,6 +27,7 @@ export default function Article() {
       }
     };
     fetchData();
+    console.log(data);
   }, [articleId]);
 
 
@@ -53,7 +54,7 @@ export default function Article() {
     </Grid>
     <Grid item>
       <Typography variant="h4" style={{ fontWeight: 'bold', color: '#4F4E4E', display: 'inline-block' }}>
-        {data.title}
+        게시글
       </Typography>
     </Grid>
   </Grid>
@@ -77,7 +78,7 @@ export default function Article() {
         
           <Grid item>
             <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E', fontWeight: 'bold'}}>
-              제목제목제목
+              {data.title}
             </Typography>
             <Typography style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E' }}>
               {data.content}
@@ -109,7 +110,7 @@ export default function Article() {
             {comment.content}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
-            {comment.date}
+            날짜
           </Typography>
         </Grid>
       </Grid>
