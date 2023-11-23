@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { InputAdornment, IconButton,Box, TextField, Grid, Typography, Container, Button, ButtonGroup, Divider } from '@mui/material';
@@ -8,10 +9,24 @@ import { useNavigate } from 'react-router';
 
 export default function Article() {
   const navigate = useNavigate();
-  
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        'http://ceprj.gachon.ac.kr:60014/article/get',
+      );
+ 
+      setData(result.data);
+    };
+ 
+    fetchData();
+  }, []);
+
   const handleGoBack = () => {
     navigate(-1);
   };
+
   return (
     <>
       <Grid container maxWidth="lg" marginLeft="5vw">
@@ -31,7 +46,7 @@ export default function Article() {
     </Grid>
     <Grid item>
       <Typography variant="h4" style={{ fontWeight: 'bold', color: '#4F4E4E', display: 'inline-block' }}>
-        게시글
+        {data.title}
       </Typography>
     </Grid>
   </Grid>
@@ -58,7 +73,7 @@ export default function Article() {
               제목제목제목
             </Typography>
             <Typography style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E' }}>
-              내용내용내용내용내용내용내용
+              {data.content}
             </Typography>
           </Grid>
         </Grid>
@@ -75,17 +90,19 @@ export default function Article() {
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
-  <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
+  {data.comments && data.comments.map((comment, index) => (
+  <div key={index}>
+      <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
         
         <Grid item marginLeft="6vw">
           <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold'}}>
-            Re: 닉넴
+            Re: {comment.nickname}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }}>
-            내용내용내용내용내용내용내용
+            {comment.content}
           </Typography>
           <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
-            날짜
+            {comment.date}
           </Typography>
         </Grid>
       </Grid>
@@ -100,6 +117,8 @@ export default function Article() {
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
+  </div>
+  ))}
   <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '70px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
