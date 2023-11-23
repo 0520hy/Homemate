@@ -12,7 +12,8 @@ export default function Article() {
   const [data, setData] = useState({});
   const { articleId } = useParams(); //url id
   const [commentContent, setCommentContent] = useState('');
-
+ 
+  //article 정보 get api
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +36,7 @@ export default function Article() {
     navigate(-1);
   };
 
-
+ //댓글 생성 api
   const createComment = async () => {
     try {
       const userId = localStorage.getItem('userId');
@@ -53,6 +54,25 @@ export default function Article() {
     } catch (error) {
       console.error(error);
       
+    }
+  };
+
+  //신고하기
+  const createComplain = async () => {
+    try {
+      const response = await axios.patch(
+        'http://ceprj.gachon.ac.kr:60014/article/addComplain',
+        null,
+        {
+          params: {
+            articleId: articleId,
+          },
+        }
+      );
+      // API 호출 성공 시 알림창 표시
+      alert('신고가 완료되었습니다.');
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -114,11 +134,18 @@ export default function Article() {
   variant="outlined"
   aria-label="outlined button group">
     <Button >삭제</Button>
-    <Button>신고하기</Button>
+    <Button  onClick={createComplain}>신고하기</Button>
   </ButtonGroup>
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
+  <Box
+  sx={{
+    maxHeight: '200px', // 최대 높이 설정
+    overflowY: 'scroll', // 스크롤 가능하도록 설정
+    marginBottom: '100px', // 댓글 입력창 아래 여백 추가
+  }}
+>
   {data.comments && data.comments.map((comment, index) => (
   <div key={index}>
       <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
@@ -141,13 +168,14 @@ export default function Article() {
   variant="outlined"
   aria-label="outlined button group">
     <Button >삭제</Button>
-    <Button>신고하기</Button>
+    <Button onClick={createComplain} >신고하기</Button>
   </ButtonGroup>
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
   </div>
 ))}
+</Box>
 
   <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '70px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
@@ -158,12 +186,15 @@ export default function Article() {
     multiline
     fullWidth
     size="small"
+    sx={{
+      backgroundColor: 'transparent', // 불투명한 배경 제거
+    }}
     value={commentContent} // 입력 값과 상태 연결
     onChange={(e) => setCommentContent(e.target.value)} // 입력 이벤트 처리
     InputProps={{
       endAdornment: (
         <InputAdornment position="end">
-          <IconButton onClick={createComment}> // 클릭 이벤트 연결
+          <IconButton onClick={createComment}> 
             <SendIcon />
           </IconButton>
         </InputAdornment>
