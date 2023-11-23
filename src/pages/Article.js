@@ -30,7 +30,7 @@ export default function Article() {
   useEffect(() => {
     const fetchDataAndLogData = async () => {
       await fetchData();
-      console.log("console:", data);
+      
     };
 
     fetchDataAndLogData();
@@ -99,13 +99,11 @@ const deleteArticle = async () => {
   }
 };
 
-
 // 댓글 삭제 api
-const deleteComment = async (commentId) => {
+const deleteComment = async (commentId, comment) => {
   try {
     const userId = localStorage.getItem('userId');
-    const comment = data.comments.find((c) => c.id === commentId);
-    if (comment && comment.userId.toString() === userId) { // 작성자 권한 체크
+    if (userId === comment.userId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
           commentId: commentId
@@ -120,6 +118,7 @@ const deleteComment = async (commentId) => {
     console.error(error);
   }
 };
+
 
 
   

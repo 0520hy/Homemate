@@ -172,6 +172,7 @@ export default function RealtyList() {
 
           {getCurrentItems().map((article) => (
   <React.Fragment key={article.id}>
+   <Grid container justifyContent="space-between" alignItems="center">
     <ListItem
       justifyContent="space-between"
       alignItems="center"
@@ -179,22 +180,26 @@ export default function RealtyList() {
         navigate(`/article/${encodeURIComponent(article.id)}`);
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div>
         <div style={{ margin: '20px' }}>
           <ListItemText
             primary={
-              <Typography variant="h5" style={{ fontSize: '1.5rem' }}>
+              <Typography variant="h5" style={{ fontSize: '1.5rem', textAlign: 'left' }}>
                 {article.title}
               </Typography>
             }
           />
         </div>
       </div>
-      <div>{article.createAt && new Date(article.createAt[0], article.createAt[1] - 1, article.createAt[2]).toLocaleDateString()}</div>
+      <div style={{ textAlign: 'right', marginRight: "15px"}}>
+        {article.createAt && new Date(article.createAt[0], article.createAt[1] - 1, article.createAt[2]).toLocaleDateString()}
+      </div>
     </ListItem>
+    </Grid>
     <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
   </React.Fragment>
 ))}
+
 
           <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
             <Pagination count={Math.ceil(communityList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
