@@ -105,7 +105,7 @@ const deleteComment = async (commentId) => {
   try {
     const userId = localStorage.getItem('userId');
     const comment = data.comments.find((c) => c.id === commentId);
-    if (comment && userId === comment.userId.toString()) { // 작성자 권한 체크
+    if (comment && comment.userId === parseInt(userId)) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
           commentId: commentId
