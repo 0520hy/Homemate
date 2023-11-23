@@ -14,21 +14,26 @@ export default function Article() {
   const [commentContent, setCommentContent] = useState('');
  
   //article 정보 get api
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/article/get', {
-          params: {
-            articleId: articleId
-          }
-        });
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://ceprj.gachon.ac.kr:60014/article/get', {
+        params: {
+          articleId: articleId
+        }
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchDataAndLogData = async () => {
+      await fetchData();
+      console.log("console:", data);
     };
-    fetchData();
-    console.log("console:",data);
+
+    fetchDataAndLogData();
   }, [articleId]);
 
 
@@ -37,27 +42,26 @@ export default function Article() {
   };
 
  //댓글 생성 api
-  const createComment = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      const response = await axios.post('http://ceprj.gachon.ac.kr:60014/comment/create', {
-        articleId: articleId,
-        content: commentContent,
-        complain: 0
-      }, {
-        params: {
-          
-          userId: userId
-        }
-      });
-      
-    } catch (error) {
-      console.error(error);
-      
-    }
-  };
+ const createComment = async () => {
+  try {
+    const userId = localStorage.getItem('userId');
+    await axios.post('http://ceprj.gachon.ac.kr:60014/comment/create', {
+      articleId: articleId,
+      content: commentContent,
+      complain: 0
+    }, {
+      params: {
+        userId: userId
+      }
+    });
+    fetchData(); // 데이터 다시 가져오기
+    setCommentContent(''); // 입력창 초기화
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-  //신고하기
+  //신고하기 api
   const createComplain = async () => {
     try {
       const response = await axios.patch(
@@ -76,6 +80,46 @@ export default function Article() {
     }
   };
 
+ //게시글 삭제 api
+  const deleteArticle = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (userId === data.userId) { // 작성자 권한 체크
+        await axios.delete('http://ceprj.gachon.ac.kr:60014/article/delete', {
+          params: {
+            articleId: articleId
+          }
+        });
+        alert('게시글이 삭제되었습니다.');
+        navigate('/community'); // /community로 이동
+      } else {
+        alert('해당 게시글 작성자만 삭제할 수 있습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //게시글 삭제 api
+  const deleteComment = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (userId === data.userId) { // 작성자 권한 체크
+        await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
+          params: {
+            articleId: articleId
+          }
+        });
+        alert('댓글이 삭제되었습니다.');
+        
+      } else {
+        alert('해당 댓글 작성자만 삭제할 수 있습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <>
       <Grid container maxWidth="lg" marginLeft="5vw">
@@ -133,7 +177,7 @@ export default function Article() {
   <ButtonGroup  
   variant="outlined"
   aria-label="outlined button group">
-    <Button >삭제</Button>
+    <Button onClick={deleteArticle}>삭제</Button>
     <Button  onClick={createComplain}>신고하기</Button>
   </ButtonGroup>
 </Grid>
@@ -141,8 +185,7 @@ export default function Article() {
   </Grid>
   <Box
   sx={{
-    maxHeight: '200px', // 최대 높이 설정
-    overflowY: 'scroll', // 스크롤 가능하도록 설정
+  
     marginBottom: '100px', // 댓글 입력창 아래 여백 추가
   }}
 >
@@ -167,7 +210,7 @@ export default function Article() {
   <ButtonGroup  
   variant="outlined"
   aria-label="outlined button group">
-    <Button >삭제</Button>
+    <Button onClick={deleteComment}>삭제</Button>
     <Button onClick={createComplain} >신고하기</Button>
   </ButtonGroup>
 </Grid>
