@@ -12,22 +12,23 @@ export default function Article() {
   const [data, setData] = useState({});
   const { articleId } = useParams(); //url id
 
-  useEffect(() => {
+
+  React.useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(
-        `http://ceprj.gachon.ac.kr:60014/article/get`,
-        {
+      try {
+        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/article/get', {
           params: {
-            articleId: parseInt(articleId)
+            articleId: articleId
           }
-        }
-      );
- 
-      setData(result.data);
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
- 
     fetchData();
   }, [articleId]);
+
 
   const handleGoBack = () => {
     navigate(-1);
