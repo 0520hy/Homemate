@@ -5,23 +5,29 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { InputAdornment, IconButton,Box, TextField, Grid, Typography, Container, Button, ButtonGroup, Divider } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SendIcon from '@mui/icons-material/Send';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 export default function Article() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
+  const { articleId } = useParams(); //url id
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(
-        'http://ceprj.gachon.ac.kr:60014/article/get',
+      const result = await axios.get(
+        `http://ceprj.gachon.ac.kr:60014/article/get`,
+        {
+          params: {
+            articleId: articleId
+          }
+        }
       );
  
       setData(result.data);
     };
  
     fetchData();
-  }, []);
+  }, [articleId]);
 
   const handleGoBack = () => {
     navigate(-1);
