@@ -201,6 +201,7 @@ export default function RealtyList() {
 
 
 
+
           <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
             <Pagination count={Math.ceil(communityList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
           </Grid>
