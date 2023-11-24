@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Chatbot from './Chatbot';
+// import Chatbot from './Chatbot';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -116,7 +116,7 @@ export default function Main() {
                     zIndex: 9999,
                   }}
                 >
-                  <Chatbot onClose={() => setShowChat(false)} />
+                  {/* <Chatbot onClose={() => setShowChat(false)} /> */}
                 </div>
               )}
           </Item>
