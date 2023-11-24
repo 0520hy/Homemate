@@ -60,41 +60,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function RealtyList() {
   const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
-  const [itemsPerPage] = useState(20); // 페이지 당 아이템 수
+  const [itemsPerPage] = useState(40); // 페이지 당 아이템 수
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
   const navigate = useNavigate();
  
 
-   // 컴포넌트 마운트 후 건물 목록 가져오기
-   useEffect(() => {
+  // 컴포넌트 마운트 후 건물 목록 가져오기
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        let response;
-        if (searchTerm === '') {
-          // Fetch all buildings when there is no search term
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const endIndex = startIndex + itemsPerPage;
-          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-            params: {
-              startIndex,
-              endIndex,
-            },
-          });
-        } else {
-          // Fetch filtered buildings when there is a search term
-          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
-            params: {
-              keyword: searchTerm,
-            },
-          });
-        }
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
+          params: {
+            startIndex,
+            endIndex,
+          },
+        });
         setBuildingList(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [currentPage, itemsPerPage, searchTerm]);
+  }, [currentPage, itemsPerPage]);
+
   // 현재 페이지 아이템
   const getCurrentItems = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -162,7 +152,7 @@ export default function RealtyList() {
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
-            <Grid item style={{ margin: '35px 50px 50px 50px' }}>
+            <Grid item style={{ margin: '350px 50px 50px 50px' }}>
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
