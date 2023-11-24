@@ -11,7 +11,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
   };
 
-  
+  const handleAdditionalCondition = (condition) => {
+    // 추가 조건을 처리하는 로직을 여기에 작성해주세요.
+    console.log('추가 조건:', condition);
+  };
 
   return (
     <div>
@@ -19,7 +22,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         return React.cloneElement(child, {
           actions: {
             handleHello,
-            
+            handleAdditionalCondition, // handleAdditionalCondition 함수를 actions 객체에 추가합니다.
           },
         });
       })}
