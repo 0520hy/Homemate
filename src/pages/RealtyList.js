@@ -69,7 +69,6 @@ export default function RealtyList() {
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [showResults, setShowResults] = useState(false); // 검색 결과 표시 여부 상태
   const navigate = useNavigate();
- 
 
   // 컴포넌트 마운트 후 건물 목록 가져오기
   useEffect(() => {
@@ -117,29 +116,29 @@ export default function RealtyList() {
   };
 
   // 검색 api call
-const search = async () => {
-  try {
-    setLoading(true);
-    const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
-      params: {
-        keyword: searchTerm,
-      },
-    });
-    setBuildingList(response.data);
-    setShowResults(true);
-    setLoading(false);
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      alert('검색 결과가 없습니다');
-    } else {
-      console.error(error);
+  const search = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+        params: {
+          keyword: searchTerm,
+        },
+      });
+      setBuildingList(response.data);
+      setShowResults(true);
+      setLoading(false);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        alert('검색 결과가 없습니다');
+      } else {
+        console.error(error);
+      }
+      setLoading(false);
     }
-    setLoading(false);
-  }
-};
+  };
 
-   // 검색 입력 (엔터) 핸들러
-   const handleSearchKeyPress = (event) => {
+  // 검색 입력 (엔터) 핸들러
+  const handleSearchKeyPress = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       setLoading(true);
@@ -150,7 +149,6 @@ const search = async () => {
   const handleGoBack = () => {
     navigate(-1);
   };
-  
 
   return (
     <>
@@ -228,18 +226,13 @@ const search = async () => {
               <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
             </Grid>
           </List>
-        )  : (
-          showResults ? (
-            <Typography variant="h6" color="secondary" style={{ textAlign: 'center', marginTop: '50px' }}>
-              검색 결과가 없습니다.
-            </Typography>
-          ) : (
-            <img src='/images/Realtybot.png' margin="100px" alt=''/>
-          )
+        ) : showResults ? (
+          <Typography variant="h6" color="secondary" style={{ textAlign: 'center', marginTop: '50px' }}>
+            검색 결과가 없습니다.
+          </Typography>
+        ) : (
+          <img src="/images/Realtybot.png" padding="200px" alt="" />
         )}
-
-
       </Grid>
     </>
-  );
-}
+)}
