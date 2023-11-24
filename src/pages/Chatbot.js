@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
- import axios from 'axios';
 
 class Review extends Component {
   constructor(props) {
@@ -16,39 +15,12 @@ class Review extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { steps } = this.props;
-    const { building, residentail, location, price, scope } = steps;
+    const { building, residentail, location, price, scope} = steps;
 
-    this.setState({ building, residentail, location, price, scope }, () => {
-      this.sendDataToAPI();
-    });
+    this.setState({ building, residentail, location, price, scope });
   }
-
-  sendDataToAPI = () => {
-    const { building, residentail, location, price, scope } = this.state;
-
-    // 데이터를 JSON 형식으로 변환
-    const data = {
-      building: building.value,
-      residentail: residentail.value,
-      location: location.value,
-      price: price.value,
-      scope: scope.value,
-    };
-
-    // API 엔드포인트 설정
-    const apiUrl = '/model'; // 실제 API 엔드포인트를 입력하세요
-
-    // POST 요청으로 데이터 전송
-    axios.post(apiUrl, data)
-      .then((response) => {
-        console.log('Data sent successfully:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error sending data:', error);
-      });
-  };
 
   render() {
     const { building, residentail, location, price, scope } = this.state;
@@ -154,34 +126,61 @@ class MyChatBot extends Component {
             user: true,
             trigger: 'review',
           },
+         
           {
             id: 'review',
             component: <Review />,
             asMessage: true,
-            trigger: 'additional-conditions', // 수정된 부분: 추가 조건 입력 단계로 이동
+            trigger: '13',
           },
           {
-            id: 'additional-conditions',
-            message: '원하는 추가 조건이 더 있으신가요? 없으면 "아니요"를 입력해주세요.',
-            trigger: 'check-conditions',
+            id: '13',
+            message: '사용자님 맞춤형 매물을 추천해드릴게요! 추가로 원하는 조건을 문장으로 말씀해주세요. 없으면 [아니요]를 입력해주세요',
+            trigger: 'review',
           },
           {
-            id: 'check-conditions',
-            user: true,
-            validator: (value) => {
-              if (value !== '아니요') {
-                // 사용자가 "아니요"가 아닌 다른 입력을 했을 경우 "원하는 추가 조건"을 처리하는 로직을 추가하세요.
-                // 원하는 추가 조건을 처리하는 로직이 끝나면 다음 단계로 이동시키세요.
-                return true; // 다음 단계로 이동
-              } else {
-                return false; // 추가 조건 입력 종료
-              }
-            },
-            trigger: 'additional-conditions',
+            id: 'update',
+            message: 'Would you like to update some field?',
+            trigger: 'update-question',
+          },
+          {
+            id: 'update-question',
+            options: [
+              { value: 'yes', label: 'Yes', trigger: 'update-yes' },
+              { value: 'no', label: 'No', trigger: 'end-message' },
+            ],
+          },
+          {
+            id: 'update-yes',
+            message: 'What field would you like to update?',
+            trigger: 'update-fields',
+          },
+          {
+            id: 'update-fields',
+            options: [
+              { value: 'name', label: 'Name', trigger: 'update-name' },
+              { value: 'gender', label: 'Gender', trigger: 'update-gender' },
+              { value: 'age', label: 'Age', trigger: 'update-age' },
+            ],
+          },
+          {
+            id: 'update-name',
+            update: 'name',
+            trigger: '7',
+          },
+          {
+            id: 'update-gender',
+            update: 'gender',
+            trigger: '7',
+          },
+          {
+            id: 'update-age',
+            update: 'age',
+            trigger: '7',
           },
           {
             id: 'end-message',
-            message: '추가 조건 입력이 종료되었습니다. 데이터를 처리 중입니다...',
+            message: 'Thanks! Your data was submitted successfully!',
             end: true,
           },
         ]}
