@@ -147,17 +147,18 @@ class A extends Component {
                 // 원하는 추가 조건을 처리하는 로직이 끝나면 다음 단계로 이동시키세요.
                 return true; // 다음 단계로 이동
               } else {
-                setTimeout(() => {
-                  // "잠시만 기다려주세요..." 메시지 출력
-                  this.props.triggerNextStep();
-                }, 1000); // 1초 후에 다음 단계로 이동
                 return false; // 추가 조건 입력 종료
               }
             },
-            trigger: 'additional-conditions',
+            trigger: (value) => (value !== '아니요' ? 'additional-conditions' : 'wait-message'),
+          },
+          {
+            id: 'wait-message',
+            message: '잠시만 기다려주세요...',
+            delay: 1000, // 1초 후에 다음 단계로 이동
+            trigger: '11',
           },
           
-      
          
         ]}
       />
