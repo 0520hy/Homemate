@@ -173,9 +173,10 @@ export default function RealtyList() {
           <Grid style={{ margin: '20px', textAlign: 'left', fontWeight: 'bold', color: '#414141' }}>검색 결과</Grid>
           <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
 
-          {buildingList.map((building) => (
+          {getCurrentItems().map((building) => (
             <React.Fragment key={building.id}>
-              <ListItem alignItems="center" onClick={() => navigate(`/details/${encodeURIComponent(building.buildingName)}`)}>
+              <ListItem alignItems="center" onClick={()=>{navigate(`/details/${encodeURIComponent(building.buildingName)}`)}}>
+               
                 <ListItemAvatar>
                   <img
                     src={`https://palgongtea.s3.ap-northeast-2.amazonaws.com/imgs/${building.buildingName}/${building.buildingName}_1.jpg`}
@@ -187,6 +188,7 @@ export default function RealtyList() {
                 <div style={{ margin: '30px' }}>
                   <ListItemText
                     primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
+                    
                     secondary={
                       <React.Fragment>
                         <Typography>{building.address}</Typography>
@@ -199,21 +201,21 @@ export default function RealtyList() {
                         >
                           {getPriceText(building)}
                         </Typography>
+                      
                       </React.Fragment>
                     }
                   />
                 </div>
+                
               </ListItem>
               <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
               <Divider variant="inset" component="li" />
             </React.Fragment>
           ))}
 
-          {buildingList.length > itemsPerPage && (
-            <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
-              <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
-            </Grid>
-          )}
+          <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
+            <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
+          </Grid>
         </List>
       </Grid>
     </>
