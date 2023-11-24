@@ -45,8 +45,7 @@ function App() {
         <Route path='/community' element={<><Header/><Community/></>}/>
         <Route path='/create-article' element={<><Header/><CreateArticle/></>}/>
         <Route path='/article/:articleId' element={<><Header/><Article/></>}/>
-        <Route path='/1' element={<><Header/><SimpleForm/></>}/>
- 
+      
       </Routes>
       
     </div>
