@@ -56,6 +56,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const LogoImage = styled('img')({
+  width: '200px',
+  margin: 'auto',
+});
 
 export default function RealtyList() {
   const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
@@ -64,84 +68,71 @@ export default function RealtyList() {
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [hasMore, setHasMore] = useState(true); // 더 많은 데이터가 있는지 여부 상태
+  const [showLogo, setShowLogo] = useState(true); // 로고 이미지 표시 여부 상태
+  const [showResults, setShowResults] = useState(false); // 검색 결과 표시 여부 상태
   const navigate = useNavigate();
- 
 
- // 컴포넌트 마운트 후 초기 데이터 가져오기
- useEffect(() => {
-  fetchData();
-}, []);
-
-// 데이터 불러오기
-const fetchData = async () => {
-  try {
-    setLoading(true);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-      params: {
-        startIndex,
-        endIndex,
-      },
-    });
-    const newData = response.data;
-    if (newData.length === 0) {
-      setHasMore(false);
-    } else {
-      setBuildingList((prevData) => [...prevData, ...newData]);
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-    setLoading(false);
-  } catch (error) {
-    console.error(error);
-    setLoading(false);
-  }
-};
-
-// 스크롤 이벤트 핸들러
-const handleScroll = () => {
-  const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-  if (scrollTop + clientHeight >= scrollHeight - 20 && !loading && hasMore) {
+  // 컴포넌트 마운트 후 초기 데이터 가져오기
+  useEffect(() => {
     fetchData();
-  }
-};
+  }, []);
 
-
-  // 건물 가격 텍스트
-  const getPriceText = (building) => {
-    let priceText = '';
-    if (building.transactionType === '월세' || building.transactionType === '단기임대') {
-      priceText = ` ${building.rentPrice}만 원`;
-    } else if (building.transactionType === '전세') {
-      priceText = ` ${building.warantPrice}만 원`;
-    } else if (building.transactionType === '매매') {
-      priceText = ` ${building.dealPrice}만 원`;
+  // 데이터 불러오기
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
+        params: {
+          startIndex,
+          endIndex,
+        },
+      });
+      const newData = response.data;
+      if (newData.length === 0) {
+        setHasMore(false);
+      } else {
+        setBuildingList((prevData) => [...prevData, ...newData]);
+        setCurrentPage((prevPage) => prevPage + 1);
+      }
+      setLoading(false);
+      setShowLogo(false);
+      setShowResults(true);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      setShowLogo(false);
     }
-    return `${building.transactionType} ${priceText}`;
   };
 
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore]);
+  // 스크롤 이벤트 핸들러
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 20 && !loading && hasMore) {
+      fetchData();
+    }
+  };
 
   // 검색 api call
   const search = async () => {
     try {
+      setLoading(true);
       const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
         params: {
           keyword: searchTerm,
         },
       });
       setBuildingList(response.data);
+      setShowResults(true);
+      setLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         alert('검색 결과가 없습니다');
       } else {
         console.error(error);
-        
       }
+      setLoading(false);
     }
   };
 
@@ -149,14 +140,21 @@ const handleScroll = () => {
   const handleSearchKeyPress = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
+      setLoading(true);
       search();
     }
   };
-  
+
   const handleGoBack = () => {
     navigate(-1);
   };
-  
+
+  // ...
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, hasMore]);
 
   return (
     <>
@@ -167,24 +165,70 @@ const handleScroll = () => {
         />
       </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center">
-        {/* ... */}
-        <List sx={{ textAlign: 'center', width: '70%', margin: '50px', bgcolor: 'background.paper' }}>
-          {/* ... */}
-          {buildingList.map((building) => (
-            <React.Fragment key={building.id}>
-              <ListItem alignItems="center" onClick={() => { navigate(`/details/${encodeURIComponent(building.buildingName)}`) }}>
-                {/* ... */}
-              </ListItem>
-              <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
-              <Divider variant="inset" component="li" />
-            </React.Fragment>
-          ))}
-          {loading && (
-            <Typography variant="body2" color="text.secondary" style={{ textAlign: 'center', marginTop: '20px' }}>
-              로딩 중...
-            </Typography>
-          )}
-        </List>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
+            <Grid item style={{ margin: '35px 50px 50px 50px' }}>
+              {showLogo ? (
+                <LogoImage src="/images/logo.png" alt="Logo" />
+              ) : (
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    style={{ color: '#898989' }}
+                    placeholder="지역명 또는 단지명으로 검색해주세요."
+                    inputProps={{ 'aria-label': 'search' }}
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                    onKeyPress={handleSearchKeyPress}
+                  />
+                </Search>
+              )}
+            </Grid>
+          </AppBar>
+        </Box>
+        {showResults && buildingList.length > 0 ? (
+          <List sx={{ textAlign: 'center', width: '70%', margin: '50px', bgcolor: 'background.paper' }}>
+            {buildingList.map((building) => (
+              <React.Fragment key={building.id}>
+                <ListItem alignItems="center" onClick={() => { navigate(`/details/${encodeURIComponent(building.buildingName)}`) }}>
+                  <ListItemAvatar>
+                    <img
+                      src={`https://palgongtea.s3.ap-northeast-2.amazonaws.com/imgs/${building.buildingName}/${building.buildingName}_1.jpg`}
+                      width="200px"
+                      style={{ margin: '5px' }}
+                      alt=""
+                    />
+                  </ListItemAvatar>
+                  <div style={{ margin: '30px' }}>
+                    <ListItemText
+                      primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
+
+                      secondary={
+                        <React.Fragment>
+                          <Typography>{building.address}</Typography>
+                          {/* ... */}
+                        </React.Fragment>
+                      }
+                    />
+                  </div>
+                </ListItem>
+                <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+                <Divider variant="inset" component="li" />
+              </React.Fragment>
+            ))}
+            {loading && (
+              <Typography variant="body2" color="text.secondary" style={{ textAlign: 'center', marginTop: '20px' }}>
+                로딩 중...
+              </Typography>
+            )}
+          </List>
+        ) : showResults && buildingList.length === 0 ? (
+          <Typography variant="h6" color="secondary" style={{ textAlign: 'center', marginTop: '50px' }}>
+            검색 결과가 없습니다.
+          </Typography>
+        ) : null}
       </Grid>
     </>
   );
