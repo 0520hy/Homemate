@@ -2,11 +2,7 @@ import { createChatBotMessage } from 'react-chatbot-kit';
 import ChatbotHeader from './ChatbotHeader';
 
 const config = {
-  initialMessages: [createChatBotMessage(`
-  안녕하세요.
-  사용자님 취향에 맞는 매물을 찾아드릴게요!
-  우선 기본 조건 질문에 답해주세요.
-  아파트/빌라/원룸/오피스텔 중 원하는 공간 형태는 무엇인가요? 단어 형태로 답변해주세요:)`)],
+  initialMessages: [createChatBotMessage(`안녕하세요.\n사용자님 취향에 맞는 매물을 찾아드릴게요!\n우선 기본 조건 질문에 답해주세요.`)],
   customComponents: {
    
    header: (props) => <ChatbotHeader onCloseClick={props.onCloseClick} />,

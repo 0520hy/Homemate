@@ -1,11 +1,26 @@
-class MessageParser {
-  constructor(actionProvider) {
-    this.actionProvider = actionProvider;
-  }
+import React from 'react';
 
-  parse(message) {
-    this.actionProvider.handleNextQuestion();
-  }
-}
+const MessageParser = ({ children, actions }) => {
+  const parse = (message) => {
+    if (message.includes('hello')) {
+      actions.handleHello();
+    }
+  
+    else if(message.includes('')){
+     
+    }
+  };
+
+  return (
+    <div>
+      {React.Children.map(children, (child) => {
+        return React.cloneElement(child, {
+          parse: parse,
+          actions:{},
+        });
+      })}
+    </div>
+  );
+};
 
 export default MessageParser;

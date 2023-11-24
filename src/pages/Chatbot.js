@@ -1,5 +1,7 @@
+// MyChatbot.js
+
 import * as React from 'react';
-import { Chatbot, useChatbotContext } from 'react-chatbot-kit'
+import Chatbot from 'react-chatbot-kit'
 import 'react-chatbot-kit/build/main.css'
 import "../styles/chatbot.css";
 import config from '../chatbot/config.js';
@@ -9,9 +11,6 @@ import "remixicon/fonts/remixicon.css";
 import ChatbotHeader from '../chatbot/ChatbotHeader';
 
 export default function MyChatbot({onClose}) {
-  const { createChatbotMessage, setState } = useChatbotContext();
-  const actionProvider = new ActionProvider(createChatbotMessage, setState);
-
   return (
     <>
       <div onClick={onClose} style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 9998 }}></div>
@@ -20,9 +19,8 @@ export default function MyChatbot({onClose}) {
         <div>
           <Chatbot
             config={config}
-            messageParser={new MessageParser(actionProvider)}
-            actionProvider={actionProvider}
-            onInit={() => actionProvider.fetchQuestions()}
+            messageParser={MessageParser}
+            actionProvider={ActionProvider}
           />
         </div>
       </div>
