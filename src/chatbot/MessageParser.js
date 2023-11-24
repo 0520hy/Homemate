@@ -1,5 +1,4 @@
 import React from 'react';
-import BasicQuestion from './BasicQuestion';
 import axios from 'axios';
 
 const MessageParser = ({ children, actions }) => {
@@ -46,22 +45,32 @@ const MessageParser = ({ children, actions }) => {
       actions.handleAdditionalCondition(message);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
-  // 모든 질문에 대한 답변을 수집하여 JSON 형식으로 만듭니다.
-  const collectedAnswers = questions.slice(0, currentQuestionIndex).map((question, index) => {
-    return {
-      question: question,
-      answer: index < currentQuestionIndex ? '사용자의 답변' : '', // 현재 질문 이전의 답변은 사용자의 답변으로 처리합니다.
-    };
-  });
 
-  // JSON 데이터를 서버로 전송합니다.
-  try {
-    const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', collectedAnswers);
-    console.log(response.data); // 서버의 응답 데이터를 출력하거나 필요한 처리를 수행합니다.
-  } catch (error) {
-    console.error(error); // 오류가 발생한 경우에 대한 처리를 수행합니다.
-  }
-};
+    // 모든 질문에 대한 답변을 수집하여 JSON 형식으로 만듭니다.
+    const collectedAnswers = questions.slice(0, currentQuestionIndex).map((question, index) => {
+      return {
+        question: question,
+        answer: index < currentQuestionIndex ? '사용자의 답변' : '', // 현재 질문 이전의 답변은 사용자의 답변으로 처리합니다.
+      };
+    });
+
+    // JSON 데이터를 서버로 전송합니다.
+    try {
+      const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', collectedAnswers);
+      console.log(response.data); // 서버의 응답 데이터를 출력하거나 필요한 처리를 수행합니다.
+    } catch (error) {
+      console.error(error); // 오류가 발생한 경우에 대한 처리를 수행합니다.
+    }
+  };
+
+  const BasicQuestion = ({ question, onAnswer }) => {
+    return (
+      <div>
+        <p>{question}</p>
+        <input type="text" onChange={(e) => onAnswer(e.target.value)} />
+      </div>
+    );
+  };
 
   return (
     <div>
