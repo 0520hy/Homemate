@@ -61,104 +61,92 @@ const LogoImage = styled('img')({
   margin: 'auto',
 });
 
+export default function RealtyList() {
+  const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const [itemsPerPage] = useState(20); // 페이지 당 아이템 수
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
+  const [loading, setLoading] = useState(false); // 로딩 상태
+  const [showResults, setShowResults] = useState(false); // 검색 결과 표시 여부 상태
+  const navigate = useNavigate();
+ 
 
-  export default function RealtyList() {
-    const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
-    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
-    const [itemsPerPage] = useState(20); // 페이지 당 아이템 수
-    const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
-    const [loading, setLoading] = useState(true); // 로딩 상태
-    const navigate = useNavigate();
-  
-    // 컴포넌트 마운트 후 건물 목록 가져오기
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const endIndex = startIndex + itemsPerPage;
-          const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-            params: {
-              startIndex,
-              endIndex,
-            },
-          });
-          setBuildingList(response.data);
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-          setLoading(false);
-        }
-      };
-      fetchData();
-    }, [currentPage, itemsPerPage]);
-  
-    // 현재 페이지 아이템
-    const getCurrentItems = () => {
-      const indexOfLastItem = currentPage * itemsPerPage;
-      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      return buildingList.slice(indexOfFirstItem, indexOfLastItem);
-    };
-  
-    // 건물 가격 텍스트
-    const getPriceText = (building) => {
-      let priceText = '';
-      if (building.transactionType === '월세' || building.transactionType === '단기임대') {
-        priceText = ` ${building.rentPrice}만 원`;
-      } else if (building.transactionType === '전세') {
-        priceText = ` ${building.warantPrice}만 원`;
-      } else if (building.transactionType === '매매') {
-        priceText = ` ${building.dealPrice}만 원`;
-      }
-      return `${building.transactionType} ${priceText}`;
-    };
-  
-    // 페이지 변경 핸들러
-    const handlePageChange = (event, page) => {
-      setCurrentPage(page);
-    };
-  
-    // 검색 api call
-    const search = async () => {
+  // 컴포넌트 마운트 후 건물 목록 가져오기
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
           params: {
-            keyword: searchTerm,
+            startIndex,
+            endIndex,
           },
         });
         setBuildingList(response.data);
-        setLoading(false);
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          alert('검색 결과가 없습니다');
-        } else {
-          console.error(error);
-        }
-        setLoading(false);
+        console.error(error);
       }
     };
-  
-    // 검색 입력 (엔터) 핸들러
-    const handleSearchKeyPress = (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        setLoading(true);
-        search();
-      }
-    };
-  
-    // 스크롤 이벤트 핸들러
-    const handleScroll = () => {
-      // 현재 스크롤 위치와 페이지 높이, 창 높이 등을 고려하여 필요한 경우 추가적인 아이템을 로드할 수 있도록 구현해보세요.
-    };
-  
-    // 컴포넌트 마운트 시 스크롤 이벤트 리스너 등록
-    useEffect(() => {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []);
-  
+    fetchData();
+  }, [currentPage, itemsPerPage]);
+
+  // 현재 페이지 아이템
+  const getCurrentItems = () => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return buildingList.slice(indexOfFirstItem, indexOfLastItem);
+  };
+
+  // 건물 가격 텍스트
+  const getPriceText = (building) => {
+    let priceText = '';
+    if (building.transactionType === '월세' || building.transactionType === '단기임대') {
+      priceText = ` ${building.rentPrice}만 원`;
+    } else if (building.transactionType === '전세') {
+      priceText = ` ${building.warantPrice}만 원`;
+    } else if (building.transactionType === '매매') {
+      priceText = ` ${building.dealPrice}만 원`;
+    }
+    return `${building.transactionType} ${priceText}`;
+  };
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  // 검색 api call
+const search = async () => {
+  try {
+    setLoading(true);
+    const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+      params: {
+        keyword: searchTerm,
+      },
+    });
+    setBuildingList(response.data);
+    setShowResults(true);
+    setLoading(false);
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      alert('검색 결과가 없습니다');
+    } else {
+      console.error(error);
+    }
+    setLoading(false);
+  }
+};
+
+   // 검색 입력 (엔터) 핸들러
+   const handleSearchKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setLoading(true);
+      search();
+    }
+  };
+
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -240,9 +228,19 @@ const LogoImage = styled('img')({
               <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
             </Grid>
           </List>
-        ) : (
-          <LogoImage src="logo.png" alt="Logo" />
+        )  : (
+          showResults ? (
+            <Typography variant="h6" color="secondary" style={{ textAlign: 'center', marginTop: '50px' }}>
+              검색 결과가 없습니다.
+            </Typography>
+          ) : (
+            <Typography variant="h6" color="secondary" style={{ textAlign: 'center', marginTop: '50px' }}>
+              검색해주세요!
+            </Typography>
+          )
         )}
+
+
       </Grid>
     </>
   );
