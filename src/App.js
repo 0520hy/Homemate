@@ -16,7 +16,7 @@ import Details from './pages/Details';
 import Community from './pages/Community';
 import CreateArticle from './pages/CreateArticle';
 import Article from './pages/Article';
-import SimpleForm from './pages/SimpleForm';
+
 
 
 
