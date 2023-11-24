@@ -65,26 +65,36 @@ export default function RealtyList() {
   const navigate = useNavigate();
  
 
-  // 컴포넌트 마운트 후 건물 목록 가져오기
-  useEffect(() => {
+   // 컴포넌트 마운트 후 건물 목록 가져오기
+   useEffect(() => {
     const fetchData = async () => {
       try {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-          params: {
-            startIndex,
-            endIndex,
-          },
-        });
+        let response;
+        if (searchTerm === '') {
+          // Fetch all buildings when there is no search term
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
+            params: {
+              startIndex,
+              endIndex,
+            },
+          });
+        } else {
+          // Fetch filtered buildings when there is a search term
+          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+            params: {
+              keyword: searchTerm,
+            },
+          });
+        }
         setBuildingList(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [currentPage, itemsPerPage]);
-
+  }, [currentPage, itemsPerPage, searchTerm]);
   // 현재 페이지 아이템
   const getCurrentItems = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
