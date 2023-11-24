@@ -16,7 +16,7 @@ import Details from './pages/Details';
 import Community from './pages/Community';
 import CreateArticle from './pages/CreateArticle';
 import Article from './pages/Article';
-
+import SimpleForm from './pages/SimpleForm';
 
 
 
@@ -45,6 +45,7 @@ function App() {
         <Route path='/community' element={<><Header/><Community/></>}/>
         <Route path='/create-article' element={<><Header/><CreateArticle/></>}/>
         <Route path='/article/:articleId' element={<><Header/><Article/></>}/>
+        <Route path='/1' element={<><Header/><SimpleForm/></>}/>
  
       </Routes>
       
