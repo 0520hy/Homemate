@@ -56,6 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
 export default function RealtyList() {
   const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
@@ -63,30 +64,26 @@ export default function RealtyList() {
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
   const [isSearching, setIsSearching] = useState(false); // 검색 중 여부 상태
   const navigate = useNavigate();
+ 
 
   // 컴포넌트 마운트 후 건물 목록 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response;
-        if (searchTerm === '') {
-          // Fetch all buildings when there is no search term
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const endIndex = startIndex + itemsPerPage;
-          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-            params: {
-              startIndex,
-              endIndex,
-            },
-          });
-        } else {
-          // Fetch filtered buildings when there is a search term
-          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
-            params: {
-              keyword: searchTerm,
-            },
-          });
-        }
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        // Check if there is a search term
+        const apiEndpoint = searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
+
+        const response = await axios.get(apiEndpoint, {
+          params: {
+            ...(searchTerm !== '' && { keyword: searchTerm }), // Add the keyword parameter only if there is a search term
+            startIndex,
+            endIndex,
+          },
+        });
+
         setBuildingList(response.data);
       } catch (error) {
         console.error(error);
@@ -148,15 +145,19 @@ export default function RealtyList() {
       search();
     }
   };
-
+  
   const handleGoBack = () => {
     navigate(-1);
   };
+  
 
   return (
     <>
       <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
-        <ArrowBackIcon onClick={handleGoBack} style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
+        <ArrowBackIcon
+          onClick={handleGoBack}
+          style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
+        />
       </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
@@ -222,7 +223,7 @@ export default function RealtyList() {
             <Typography variant="body1">검색어를 입력해주세요.</Typography>
           )}
 
-          {buildingList.length > itemsPerPage && (
+          {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
             <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
               <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
             </Grid>
