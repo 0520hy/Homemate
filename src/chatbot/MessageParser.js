@@ -28,22 +28,25 @@ const MessageParser = ({ children, actions }) => {
   ];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
+  const [isQuestionVisible, setIsQuestionVisible] = React.useState(false);
 
   const handleAnswer = (answer) => {
     actions.handleQuestionAnswer(answer);
 
     // 다음 질문으로 넘어감
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+    setIsQuestionVisible(false);
   };
 
   const parse = async (message) => {
     if (message === '아니요') {
       // 추가 조건이 없음을 처리하는 로직을 여기에 작성합니다.
       actions.handleNoAdditionalConditions();
-      setCurrentQuestionIndex(questions.length); // 모든 질문에 대한 답변이 완료되었음을 설정합니다.
+      setIsQuestionVisible(false);
     } else {
       // 추가 조건이 있는 경우를 처리하는 로직을 여기에 작성합니다.
       actions.handleAdditionalCondition(message);
+      setIsQuestionVisible(true);
     }
   };
 
@@ -56,9 +59,13 @@ const MessageParser = ({ children, actions }) => {
     );
   };
 
+  React.useEffect(() => {
+    setIsQuestionVisible(true);
+  }, []);
+
   return (
     <div>
-      {currentQuestionIndex < questions.length ? (
+      {isQuestionVisible ? (
         <BasicQuestion
           question={questions[currentQuestionIndex]}
           onAnswer={handleAnswer}
