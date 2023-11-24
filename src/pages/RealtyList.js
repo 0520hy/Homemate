@@ -56,34 +56,44 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
 export default function RealtyList() {
   const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
-  const [itemsPerPage] = useState(40); // 페이지 당 아이템 수
+  const [itemsPerPage] = useState(20); // 페이지 당 아이템 수
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
+  const [isSearching, setIsSearching] = useState(false); // 검색 중 여부 상태
   const navigate = useNavigate();
- 
 
   // 컴포넌트 마운트 후 건물 목록 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-          params: {
-            startIndex,
-            endIndex,
-          },
-        });
+        let response;
+        if (searchTerm === '') {
+          // Fetch all buildings when there is no search term
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
+            params: {
+              startIndex,
+              endIndex,
+            },
+          });
+        } else {
+          // Fetch filtered buildings when there is a search term
+          response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+            params: {
+              keyword: searchTerm,
+            },
+          });
+        }
         setBuildingList(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, searchTerm]);
 
   // 현재 페이지 아이템
   const getCurrentItems = () => {
@@ -113,6 +123,7 @@ export default function RealtyList() {
   // 검색 api call
   const search = async () => {
     try {
+      setIsSearching(true); // 검색 중 상태로 설정
       const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
         params: {
           keyword: searchTerm,
@@ -124,8 +135,9 @@ export default function RealtyList() {
         alert('검색 결과가 없습니다');
       } else {
         console.error(error);
-        
       }
+    } finally {
+      setIsSearching(false); // 검색 완료 후 상태 변경
     }
   };
 
@@ -136,23 +148,20 @@ export default function RealtyList() {
       search();
     }
   };
-  
+
   const handleGoBack = () => {
     navigate(-1);
   };
-  
 
   return (
     <>
-     <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
-    <ArrowBackIcon
-    onClick={handleGoBack}
-    style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
-  </Grid>
+      <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
+        <ArrowBackIcon onClick={handleGoBack} style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
+      </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
-            <Grid item style={{ margin: '350px 50px 50px 50px' }}>
+            <Grid item style={{ margin: '35px 50px 50px 50px' }}>
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
@@ -173,49 +182,51 @@ export default function RealtyList() {
           <Grid style={{ margin: '20px', textAlign: 'left', fontWeight: 'bold', color: '#414141' }}>검색 결과</Grid>
           <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
 
-          {getCurrentItems().map((building) => (
-            <React.Fragment key={building.id}>
-              <ListItem alignItems="center" onClick={()=>{navigate(`/details/${encodeURIComponent(building.buildingName)}`)}}>
-               
-                <ListItemAvatar>
-                  <img
-                    src={`https://palgongtea.s3.ap-northeast-2.amazonaws.com/imgs/${building.buildingName}/${building.buildingName}_1.jpg`}
-                    width="200px"
-                    style={{ margin: '5px' }}
-                    alt=""
-                  />
-                </ListItemAvatar>
-                <div style={{ margin: '30px' }}>
-                  <ListItemText
-                    primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
-                    
-                    secondary={
-                      <React.Fragment>
-                        <Typography>{building.address}</Typography>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                          style={{ fontSize: '1.3em' }}
-                        >
-                          {getPriceText(building)}
-                        </Typography>
-                      
-                      </React.Fragment>
-                    }
-                  />
-                </div>
-                
-              </ListItem>
-              <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
-              <Divider variant="inset" component="li" />
-            </React.Fragment>
-          ))}
+          {searchTerm !== '' && !isSearching ? (
+            getCurrentItems().map((building) => (
+              <React.Fragment key={building.id}>
+                <ListItem alignItems="center" onClick={() => { navigate(`/details/${encodeURIComponent(building.buildingName)}`) }}>
+                  <ListItemAvatar>
+                    <img
+                      src={`https://palgongtea.s3.ap-northeast-2.amazonaws.com/imgs/${building.buildingName}/${building.buildingName}_1.jpg`}
+                      width="200px"
+                      style={{ margin: '5px' }}
+                      alt=""
+                    />
+                  </ListItemAvatar>
+                  <div style={{ margin: '30px' }}>
+                    <ListItemText
+                      primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
+                      secondary={
+                        <React.Fragment>
+                          <Typography>{building.address}</Typography>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                            style={{ fontSize: '1.3em' }}
+                          >
+                            {getPriceText(building)}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </div>
+                </ListItem>
+                <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+                <Divider variant="inset" component="li" />
+              </React.Fragment>
+            ))
+          ) : (
+            <Typography variant="body1">검색어를 입력해주세요.</Typography>
+          )}
 
-          <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
-            <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
-          </Grid>
+          {buildingList.length > itemsPerPage && (
+            <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
+              <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
+            </Grid>
+          )}
         </List>
       </Grid>
     </>
