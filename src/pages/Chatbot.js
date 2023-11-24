@@ -152,7 +152,7 @@ class MyChatBot extends Component {
           {
             id: 'scope',
             user: true,
-            trigger: '11',
+            trigger: 'review',
           },
           {
             id: 'review',
