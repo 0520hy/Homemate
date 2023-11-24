@@ -64,7 +64,7 @@ Review.defaultProps = {
   steps: undefined,
 };
 
-class MyChatBot extends Component {
+class A extends Component {
   render() {
     return (
       <ChatBot
@@ -189,4 +189,4 @@ class MyChatBot extends Component {
   }
 }
 
-export default MyChatBot;
+export default A;
