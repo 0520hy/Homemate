@@ -56,6 +56,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const LogoImage = styled('img')({
+  width: '200px',
+  margin: 'auto',
+});
 
 export default function RealtyList() {
   const [buildingList, setBuildingList] = useState([]); // 건물 목록 상태
@@ -124,7 +128,6 @@ export default function RealtyList() {
         alert('검색 결과가 없습니다');
       } else {
         console.error(error);
-        
       }
     }
   };
@@ -144,15 +147,16 @@ export default function RealtyList() {
 
   return (
     <>
-     <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
-    <ArrowBackIcon
-    onClick={handleGoBack}
-    style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
-  </Grid>
+      <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
+        <ArrowBackIcon
+          onClick={handleGoBack}
+          style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
+        />
+      </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar elevation={0} style={{ backgroundColor: 'transparent' }} position="static">
-            <Grid item style={{ margin: '100px 50px 50px 50px' }}>
+            <Grid item style={{ margin: '35px 50px 50px 50px' }}>
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
@@ -169,54 +173,57 @@ export default function RealtyList() {
             </Grid>
           </AppBar>
         </Box>
-        <List sx={{ textAlign: 'center', width: '70%', margin: '50px', bgcolor: 'background.paper' }}>
-          <Grid style={{ margin: '20px', textAlign: 'left', fontWeight: 'bold', color: '#414141' }}>검색 결과</Grid>
-          <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+        {buildingList.length > 0 ? (
+          <List sx={{ textAlign: 'center', width: '70%', margin: '50px', bgcolor: 'background.paper' }}>
+            <Grid style={{ margin: '20px', textAlign: 'left', fontWeight: 'bold', color: '#414141' }}>검색 결과</Grid>
+            <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
 
-          {getCurrentItems().map((building) => (
-            <React.Fragment key={building.id}>
-              <ListItem alignItems="center" onClick={()=>{navigate(`/details/${encodeURIComponent(building.buildingName)}`)}}>
-               
-                <ListItemAvatar>
-                  <img
-                    src={`https://palgongtea.s3.ap-northeast-2.amazonaws.com/imgs/${building.buildingName}/${building.buildingName}_1.jpg`}
-                    width="200px"
-                    style={{ margin: '5px' }}
-                    alt=""
-                  />
-                </ListItemAvatar>
-                <div style={{ margin: '30px' }}>
-                  <ListItemText
-                    primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
-                    
-                    secondary={
-                      <React.Fragment>
-                        <Typography>{building.address}</Typography>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                          style={{ fontSize: '1.3em' }}
-                        >
-                          {getPriceText(building)}
-                        </Typography>
-                      
-                      </React.Fragment>
-                    }
-                  />
-                </div>
-                
-              </ListItem>
-              <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
-              <Divider variant="inset" component="li" />
-            </React.Fragment>
-          ))}
+            {getCurrentItems().map((building) => (
+              <React.Fragment key={building.id}>
+                <ListItem alignItems="center" onClick={() => { navigate(`/details/${encodeURIComponent(building.buildingName)}`) }}>
+                  <ListItemAvatar>
+                    <img
+                      src={`https://palgongtea.s3.ap-northeast-2.amazonaws.com/imgs/${building.buildingName}/${building.buildingName}_1.jpg`}
+                      width="200px"
+                      style={{ margin: '5px' }}
+                      alt=""
+                    />
+                  </ListItemAvatar>
+                  <div style={{ margin: '30px' }}>
+                    <ListItemText
+                      primary={<Typography variant="h5" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>{building.title}</Typography>}
 
-          <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
-            <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
-          </Grid>
-        </List>
+                      secondary={
+                        <React.Fragment>
+                          <Typography>{building.address}</Typography>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                            style={{ fontSize: '1.3em' }}
+                          >
+                            {getPriceText(building)}
+                          </Typography>
+
+                        </React.Fragment>
+                      }
+                    />
+                  </div>
+
+                </ListItem>
+                <Divider sx={{ margin: '0 0', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+                <Divider variant="inset" component="li" />
+              </React.Fragment>
+            ))}
+
+            <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
+              <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
+            </Grid>
+          </List>
+        ) : (
+          <LogoImage src="logo.png" alt="Logo" />
+        )}
       </Grid>
     </>
   );

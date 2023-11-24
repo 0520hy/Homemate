@@ -108,7 +108,7 @@ class A extends Component {
           },
           {
             id: '7',
-            message: '희망하는 가격대를 알려주세요. (만원 단위로 입력) 월세의 경우 보증금/월세 형태로 입력해주세요!',
+            message: '희망하는 가격대를 알려주세요. (만원 단위로 숫자로 입력) 월세의 경우 보증금/월세(예시: 3000/50) 형태로 입력해주세요!',
             trigger: 'price',
           },
           {
@@ -135,29 +135,30 @@ class A extends Component {
           },
           {
             id: '11',
-            message: '사용자님 맞춤형 매물을 추천해드릴게요! 추가로 원하는 조건을 문장으로 말씀해주세요. 없으면 [아니요]를 입력해주세요',
+            message: '사용자님 맞춤형 매물을 추천해드릴게요! 추가로 원하는 조건을 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!) 없으면 [아니요]를 입력해주세요 ',
             trigger: 'additional-conditions',
           },
-          {
-            id: 'additional-conditions',
-            user: true,
-            validator: (value) => {
-              if (value !== '아니요') {
-                // 사용자가 "아니요"가 아닌 다른 입력을 했을 경우 "원하는 추가 조건"을 처리하는 로직을 추가하세요.
-                // 원하는 추가 조건을 처리하는 로직이 끝나면 다음 단계로 이동시키세요.
-                return true; // 다음 단계로 이동
-              } else {
-                return false; // 추가 조건 입력 종료
-              }
-            },
-            trigger: (value) => (value !== '아니요' ? 'additional-conditions' : 'wait-message'),
-          },
-          {
-            id: 'wait-message',
-            message: '잠시만 기다려주세요...',
-            delay: 1000, // 1초 후에 다음 단계로 이동
-            trigger: '11',
-          },
+          
+          // {
+          //   id: 'additional-conditions',
+          //   user: true,
+          //   validator: (value) => {
+          //     if (value !== '아니요') {
+          //       // 사용자가 "아니요"가 아닌 다른 입력을 했을 경우 "원하는 추가 조건"을 처리하는 로직을 추가하세요.
+          //       // 원하는 추가 조건을 처리하는 로직이 끝나면 다음 단계로 이동시키세요.
+          //       return true; // 다음 단계로 이동
+          //     } else {
+          //       return false; // 추가 조건 입력 종료
+          //     }
+          //   },
+          //   trigger: (value) => (value !== '아니요' ? 'additional-conditions' : 'wait-message'),
+          // },
+          // {
+          //   id: 'wait-message',
+          //   message: '잠시만 기다려주세요...',
+          //   delay: 1000, // 1초 후에 다음 단계로 이동
+          //   trigger: '11',
+          // },
           
          
         ]}
