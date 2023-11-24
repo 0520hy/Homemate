@@ -234,9 +234,7 @@ const search = async () => {
               검색 결과가 없습니다.
             </Typography>
           ) : (
-            <Typography variant="h6" color="secondary" style={{ textAlign: 'center', marginTop: '50px' }}>
-              검색해주세요!
-            </Typography>
+            <img src='/images/Realtybot.png' margin="100px" alt=''/>
           )
         )}
 
