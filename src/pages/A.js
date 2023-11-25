@@ -91,7 +91,7 @@ class Submit extends Component {
       scope: parseInt(scope) || 0,
       additionalConditions: additionalConditions || '',
     };
-
+    console.log(data); 
     try {
       const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
       // POST 요청 성공 시 처리할 로직 작성
