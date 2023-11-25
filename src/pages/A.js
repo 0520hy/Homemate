@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
+import { response } from 'express';
 
 //리뷰
 class Review extends Component {
@@ -106,7 +107,7 @@ class Submit extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleSubmit}>확인</button>
+       {response.data}
       </div>
     );
   }
@@ -174,11 +175,11 @@ class A extends Component {
             id: 'review',
             component: <Review />,
             Message: true,
-            trigger: 'wait-message', // 수정
+            trigger: '12', 
           },
           {
             id: '12',
-            message: '추가로 원하는 조건이 있으신가요? 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
+            message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
             trigger: '13',
           },
           
@@ -202,7 +203,8 @@ class A extends Component {
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-           trigger: '19'
+            component: <Submit/>,
+            trigger: '19'
           },
           {
             id: '17',
