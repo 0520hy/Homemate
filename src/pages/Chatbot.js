@@ -112,7 +112,7 @@ class Submit extends Component {
   }
 }
 
-class A extends Component {
+class MyChatbot extends Component {
 
   render() {
     
@@ -217,4 +217,4 @@ class A extends Component {
   }
 }
 
-export default A;
+export default MyChatbot;

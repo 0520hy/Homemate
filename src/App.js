@@ -7,7 +7,7 @@ import Main from './pages/Main';
 import MyPage from './pages/Mypage';
 import Header from './components/Header';
 import {Routes, Route} from "react-router-dom"
-// import MyChatbot from './pages/Chatbot';
+import MyChatbot from './pages/Chatbot';
 import { createGlobalStyle } from 'styled-components';
 import Guide from './pages/Guide';
 import SignIn from './pages/SignIn';
@@ -16,7 +16,7 @@ import Details from './pages/Details';
 import Community from './pages/Community';
 import CreateArticle from './pages/CreateArticle';
 import Article from './pages/Article';
-import A from './pages/A';
+
 
 
 
@@ -38,14 +38,14 @@ function App() {
         <Route path='/signin' element={<SignIn/>}/>
         <Route path="/main" element={<><Header/><Main/></>}/>
         <Route path="/mypage" element={<><Header/><MyPage/></>}/>
-        {/* <Route path="/chatbot" element={<MyChatbot/>}/> */}
+        <Route path="/chatbot" element={<MyChatbot/>}/> 
         <Route path="/guide" element={<><Header/><Guide/></>}/>
         <Route path="/realty-list" element={<><Header/><RealtyList/></>}/>
         <Route path='/details/:buildingName' element={<><Header/><Details/></>}/>
         <Route path='/community' element={<><Header/><Community/></>}/>
         <Route path='/create-article' element={<><Header/><CreateArticle/></>}/>
         <Route path='/article/:articleId' element={<><Header/><Article/></>}/>
-        <Route path='/1' element={<><A/></>}/>
+        
       
       </Routes>
       
