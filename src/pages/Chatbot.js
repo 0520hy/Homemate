@@ -7,11 +7,11 @@ import { ThemeProvider } from 'styled-components';
 const theme = {
   background: '#f5f8fb',
   fontFamily: 'Helvetica Neue',
-  headerBgColor: '#5280F7',
-  headerFontColor: '#fff',
+  headerBgColor: '#fff',
+  headerFontColor: '#4a4a4a',
   headerFontSize: '15px',
   botBubbleColor: '#D9D9D9',
-  botFontColor: '#fff',
+  botFontColor: '#4a4a4a',
   userBubbleColor: '#CED5E8',
   userFontColor: '#4a4a4a',
 };
@@ -132,6 +132,7 @@ class MyChatbot extends Component {
     return (
       <ThemeProvider theme={theme}>
       <ChatBot floating={false}
+       headerTitle="HOMEMATE CHATBOT"
         steps={[
           {
             id: '1',
