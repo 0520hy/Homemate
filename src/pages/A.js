@@ -65,7 +65,6 @@ Review.defaultProps = {
   steps: undefined,
 };
 
-
 class Submit extends Component {
   constructor(props) {
     super(props);
@@ -75,8 +74,10 @@ class Submit extends Component {
     };
   }
 
-  componentDidMount() {
-    this.handleSubmit();
+  componentDidUpdate(prevProps) {
+    if (prevProps.steps !== this.props.steps) {
+      this.handleSubmit();
+    }
   }
 
   handleSubmit = async () => {
@@ -114,7 +115,6 @@ class Submit extends Component {
     );
   }
 }
-
 
 
 
@@ -218,8 +218,8 @@ class A extends Component {
           {
             id: '16',
             user: true,
-            trigger: 'add-message'
-
+            trigger: 'add-message',
+            waitAction: true,
           }
          
         ]}
