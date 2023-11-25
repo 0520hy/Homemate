@@ -135,7 +135,8 @@ class MyChatbot extends Component {
       <ThemeProvider theme={theme}>
       <ChatBot 
       floating
-      CloseButton 
+      botAvatar="/images/bot-avatar.png"
+      
        headerTitle="HOMEMATE CHATBOT"
         steps={[
           {
