@@ -120,14 +120,14 @@ const deleteArticle = async () => {
 };
 
 // 댓글 삭제 api
-const deleteComment = async (commentId, comment) => {
+const deleteComment = async (id) => {
   try {
     const userId = localStorage.getItem('userId');
-    if (comment && userId === comment.userId.toString()) { // 작성자 권한 체크
+    if (userId === data.userId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
-        
-          commentId: commentId
-        
+        params: {
+          commentId: id
+        }
       });
       alert('댓글이 삭제되었습니다.');
       fetchData(); // 데이터 다시 가져오기
@@ -138,6 +138,7 @@ const deleteComment = async (commentId, comment) => {
     console.error(error);
   }
 };
+
 
 
 
@@ -224,7 +225,7 @@ const deleteComment = async (commentId, comment) => {
               {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
             </Typography>
             <ButtonGroup variant="outlined" aria-label="outlined button group">
-              <Button onClick={() => deleteComment(comment.id, comment)}>삭제</Button>
+              <Button onClick={() => deleteComment(comment.id)}>삭제</Button>
               <Button onClick={() => createCommentComplain(comment.id)}>신고하기</Button>
             </ButtonGroup>
           </Grid>
@@ -235,7 +236,7 @@ const deleteComment = async (commentId, comment) => {
   })}
 </Box>
 
-  <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '110px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
+  <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '70px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
     id="filled-hidden-label-normal"
