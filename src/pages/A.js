@@ -69,17 +69,17 @@ Review.defaultProps = {
 
 class A extends Component {
   handleSubmit = async () => {
-    const { steps } = this.props;
+    const { steps, triggerNextStep } = this.props;
     const { building, residentail, location, price, scope, additionalConditions } = steps;
 
     // 데이터 형식 변환
     const data = {
-      building: building.value,
-      residentail: residentail.value,
-      location: location.value,
-      price: parseInt(price.value),
-      scope: parseInt(scope.value),
-      additionalConditions: additionalConditions.value,
+      building: building?.value || '',
+      residentail: residentail?.value || '',
+      location: location?.value || '',
+      price: parseInt(price?.value) || 0,
+      scope: parseInt(scope?.value) || 0,
+      additionalConditions: additionalConditions?.value || '',
     };
 
     try {
@@ -87,14 +87,12 @@ class A extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
-      // this.setState({ responseData: response.data });
-      const { triggerNextStep } = this.props;
       triggerNextStep({ value: response.data, trigger: '17' });
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   render() {
     
     return (
@@ -198,7 +196,7 @@ class A extends Component {
           {
             id: '17',
             component: (
-              <button onClick={this.handleSubmit}>확인</button>
+              <button onClick={this.handleSubmit}> 추천 매물 확인하기</button>
             )
           }
          
