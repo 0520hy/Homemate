@@ -178,7 +178,7 @@ class A extends Component {
             id: 'review',
             component: <Review />,
             asMessage: true,
-            trigger: '12',
+            trigger: 'add-message',
           },
         ]}
       />
