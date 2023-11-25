@@ -192,7 +192,7 @@ class A extends Component {
           {
             id: '13',
             user: true,
-            trigger: '14',     
+            trigger: 'add-message',     
           },
           {
             id: 'add-message',
