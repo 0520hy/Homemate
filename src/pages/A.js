@@ -69,6 +69,7 @@ Review.defaultProps = {
 //post
 class Submit extends Component {
   handleSubmit = async (event) => {
+    console.log('Button clicked'); 
     event.preventDefault(); // 기본 동작 막기
 
     const { steps, triggerNextStep } = this.props;
