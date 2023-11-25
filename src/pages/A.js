@@ -203,13 +203,13 @@ class A extends Component {
           {
             id: "optional",
             options: [
-              { value: 'yes', label: '네', trigger: '19' },
+              { value: 'yes', label: '네', trigger: '17' },
               { value: 'no', label: '아니요', trigger: 'wait-message' },]
           },
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-           trigger: '17'
+           trigger: '19'
           },
           {
             id: '17',
