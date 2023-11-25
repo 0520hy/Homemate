@@ -80,7 +80,7 @@ class Submit extends Component {
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
-    const { value: additionalConditions } = steps['add-message'] || {};
+    // const { value: additionalConditions } = steps['add-message'] || {};
 
     // 데이터 형식 변환
     const data = {
@@ -89,7 +89,7 @@ class Submit extends Component {
       location: location || '',
       price: parseInt(price) || 0,
       scope: parseInt(scope) || 0,
-      additionalConditions: additionalConditions || '',
+      // additionalConditions: additionalConditions || '',
     };
     console.log(data); // 여기에 추가
     try {
