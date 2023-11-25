@@ -84,8 +84,8 @@ class Submit extends Component {
 
     // 데이터 형식 변환
     const data = {
-      building: parseInt(building) || '',
-      residentail: parseInt(residentail) || '',
+      building: building || '',
+      residentail: residentail || '',
       location: location || '',
       price: parseInt(price) || 0,
       scope: parseInt(scope) || 0,
