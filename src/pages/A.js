@@ -65,25 +65,13 @@ Review.defaultProps = {
   steps: undefined,
 };
 
-class Submit extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      responseData: '', // 응답 값 저장을 위한 상태 변수
-    };
-  }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.steps !== this.props.steps) {
-      this.handleSubmit();
-    }
-  }
-
+class A extends Component {
   handleSubmit = async () => {
     const { steps } = this.props;
     const { building, residentail, location, price, scope, additionalConditions } = steps;
-    
+
     // 데이터 형식 변환
     const data = {
       building: building.value,
@@ -99,27 +87,13 @@ class Submit extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
-      this.setState({ responseData: response.data });
+      // this.setState({ responseData: response.data });
+      const { triggerNextStep } = this.props;
+      triggerNextStep({ value: response.data, trigger: '17' });
     } catch (error) {
       console.error(error);
     }
   };
-
-  render() {
-    const { responseData } = this.state;
-
-    return (
-      <div>
-        {responseData && <p>{responseData}</p>}
-      </div>
-    );
-  }
-}
-
-
-
-
-class A extends Component {
   
   render() {
     
@@ -213,13 +187,19 @@ class A extends Component {
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            component: <Submit />,
+           trigger: '17'
           },
           {
             id: '16',
             user: true,
             trigger: 'add-message',
             waitAction: true,
+          },
+          {
+            id: '17',
+            component: (
+              <button onClick={this.handleSubmit}>확인</button>
+            )
           }
          
         ]}
