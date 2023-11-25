@@ -61,8 +61,8 @@ export default function Article() {
   }
 };
 
-  //신고하기 api
-  const createComplain = async () => {
+  //신고하기 게시글 api
+  const createArticleComplain = async () => {
     try {
       const response = await axios.patch(
         'http://ceprj.gachon.ac.kr:60014/article/addComplain',
@@ -79,6 +79,26 @@ export default function Article() {
       console.error(error);
     }
   };
+
+    //신고하기 댓글 api
+    const createCommentComplain = async () => {
+      try {
+        const response = await axios.patch(
+          'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
+          null,
+          {
+            params: {
+              articleId: articleId,
+            },
+          }
+        );
+        // API 호출 성공 시 알림창 표시
+        alert('신고가 완료되었습니다.');
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
 // 게시글 삭제 api
 const deleteArticle = async () => {
   try {
@@ -182,7 +202,7 @@ const deleteComment = async (commentId, comment) => {
   variant="outlined"
   aria-label="outlined button group">
     <Button onClick={deleteArticle}>삭제</Button>
-    <Button  onClick={createComplain}>신고하기</Button>
+    <Button  onClick={createArticleComplain}>신고하기</Button>
   </ButtonGroup>
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
@@ -210,7 +230,7 @@ const deleteComment = async (commentId, comment) => {
   variant="outlined"
   aria-label="outlined button group">
     <Button onClick={deleteComment}>삭제</Button>
-    <Button onClick={createComplain} >신고하기</Button>
+    <Button onClick={createCommentComplain} >신고하기</Button>
   </ButtonGroup>
 </Grid>
 <Divider style={{ margin: '20px 5vw' }} />
