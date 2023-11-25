@@ -109,9 +109,7 @@ class Submit extends Component {
     const { response } = this.state;
     return (
       <div>
-        {response.map((item, index) => (
-          <p key={index}>{item}</p>
-        ))}
+        
       </div>
     );
   }
