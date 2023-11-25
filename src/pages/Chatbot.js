@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState  } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
@@ -7,8 +7,8 @@ import { ThemeProvider } from 'styled-components';
 const theme = {
   background: '#f5f8fb',
   fontFamily: 'Helvetica Neue',
-  headerBgColor: '#fff',
-  headerFontColor: '#4a4a4a',
+  headerBgColor: '#5280F7',
+  headerFontColor: '#fff',
   headerFontSize: '15px',
   botBubbleColor: '#D9D9D9',
   botFontColor: '#4a4a4a',
@@ -130,8 +130,11 @@ class MyChatbot extends Component {
   render() {
     
     return (
+      
+      
       <ThemeProvider theme={theme}>
-      <ChatBot floating={false}
+      <ChatBot 
+      enableCloseButton 
        headerTitle="HOMEMATE CHATBOT"
         steps={[
           {
