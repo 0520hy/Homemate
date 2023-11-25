@@ -220,7 +220,7 @@ export default function RealtyList() {
               </React.Fragment>
             ))
           ) : (
-            <Typography variant="body1">검색어를 입력해주세요.</Typography>
+           <img src="/images/Realtybot" width="60%" margin="200px" alt=""></img>
           )}
 
           {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
