@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
-import { response } from 'express';
 
 //리뷰
 class Review extends Component {
@@ -98,22 +97,21 @@ class Submit extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
-      this.setState({ response: response.data });
-     
+      triggerNextStep({ value: response.data, trigger: '17' });
     } catch (error) {
       console.error(error);
     }
   };
 
   render() {
-    const { response } = this.state;
     return (
       <div>
-        
+        <button onClick={this.handleSubmit}>확인</button>
       </div>
     );
   }
 }
+
 class A extends Component {
 
   render() {
