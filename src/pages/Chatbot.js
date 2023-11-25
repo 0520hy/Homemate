@@ -136,6 +136,7 @@ class MyChatbot extends Component {
       <ChatBot 
       floating
       botAvatar="/images/bot-avatar.png"
+      userAvatar="/images/user-avatar.png"
       
        headerTitle="HOMEMATE CHATBOT"
         steps={[

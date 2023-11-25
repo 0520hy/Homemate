@@ -236,7 +236,7 @@ const deleteComment = async (commentId) => {
   })}
 </Box>
 
-  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)', height: '110px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
+  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)', height: '60px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
     id="filled-hidden-label-normal"
