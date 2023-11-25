@@ -98,6 +98,7 @@ class Submit extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
+      this.setState({ response: response.data });
       triggerNextStep({ value: response.data, trigger: '17' });
     } catch (error) {
       console.error(error);
@@ -105,14 +106,16 @@ class Submit extends Component {
   };
 
   render() {
+    const { response } = this.state;
     return (
       <div>
-       {response.data}
+        {response.map((item, index) => (
+          <p key={index}>{item}</p>
+        ))}
       </div>
     );
   }
 }
-
 class A extends Component {
 
   render() {
