@@ -220,7 +220,9 @@ export default function RealtyList() {
               </React.Fragment>
             ))
           ) : (
-           <img src="/images/Realtybot.png" width="40%" paddingTop="120px" margin="200px" alt=""></img>
+            <div style={{ padding: '20px', margin: '10px' }}>
+            <img src="/images/Realtybot.png" alt="" style={{ width: '40%', paddingTop: '120px' }} />
+          </div>
           )}
 
           {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
