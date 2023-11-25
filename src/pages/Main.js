@@ -110,8 +110,8 @@ export default function Main() {
                     position: 'fixed',
                     bottom: '0',
                     right: '0',
-                    maxWidth: '700px',
-                    height: '600px',
+                    maxWidth: '800px',
+                    height: '550px',
                     overflow: 'hidden',
                     zIndex: 9999,
                   }}

@@ -117,7 +117,7 @@ class MyChatbot extends Component {
   render() {
     
     return (
-      <ChatBot
+      <ChatBot floating
         steps={[
           {
             id: '1',
