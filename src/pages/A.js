@@ -80,9 +80,7 @@ class Submit extends Component {
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
-    const additionalConditions = steps
-      .filter(step => step.id.startsWith('additionalConditions'))
-      .map(step => step.value);
+    const { value: additionalConditions } = steps.additionalConditions || {};
 
     
     // 데이터 형식 변환
@@ -92,7 +90,7 @@ class Submit extends Component {
       location: location || '',
       price: parseInt(price) || 0,
       scope: parseInt(scope) || 0,
-      additionalConditions: additionalConditions || [],
+      additionalConditions: additionalConditions || '',
     };
     console.log(data); // 여기에 추가
     try {
@@ -100,7 +98,7 @@ class Submit extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
-      triggerNextStep({ value: response.data,  });
+      triggerNextStep({ value: response.data });
     } catch (error) {
       console.error(error);
     }
