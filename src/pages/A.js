@@ -202,10 +202,14 @@ class A extends Component {
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            component:  <Submit />,
-          
+            component: <Submit/>,
+            trigger: '17'
           },
-        
+          {
+            id: '17',
+            component: <Submit />,
+            Message: true,
+          },
          
         ]}
       />
