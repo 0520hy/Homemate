@@ -3,7 +3,7 @@ import { Grid, Box, Stack } from "@mui/material"
 
 export default function Guide(){
   return(
-     <Box paddingTop="50px" style={{ backgroundColor:'#F5F7FB' }}>
+     <Box paddingTop="50px"  paddingBottom="80px" style={{ backgroundColor:'#F5F7FB' }}>
       <Grid container spacing={10} justifyContent="center" alignItems="center">
         <Grid item>
       <img src="/images/guide1.png" alt="" />
