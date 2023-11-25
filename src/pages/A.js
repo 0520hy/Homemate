@@ -64,6 +64,8 @@ Review.propTypes = {
 Review.defaultProps = {
   steps: undefined,
 };
+
+
 class Submit extends Component {
   constructor(props) {
     super(props);
@@ -71,6 +73,10 @@ class Submit extends Component {
     this.state = {
       responseData: '', // 응답 값 저장을 위한 상태 변수
     };
+  }
+
+  componentDidMount() {
+    this.handleSubmit();
   }
 
   handleSubmit = async () => {
@@ -103,12 +109,12 @@ class Submit extends Component {
 
     return (
       <div>
-        <button onClick={this.handleSubmit}>결과 확인</button>
         {responseData && <p>{responseData}</p>}
       </div>
     );
   }
 }
+
 
 
 
