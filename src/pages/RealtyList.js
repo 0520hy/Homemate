@@ -221,7 +221,7 @@ export default function RealtyList() {
             ))
           ) : (
             <div style={{ padding: '20px', margin: '10px' }}>
-            <img src="/images/Realtybot.png" alt="" style={{ width: '40%', paddingTop: '120px' }} />
+            <img src="/images/Realtybot.png" alt="" style={{ width: '40%', paddingTop: '80px' }} />
           </div>
           )}
 
