@@ -81,14 +81,14 @@ export default function Article() {
   };
 
     //신고하기 댓글 api
-const createCommentComplain = async (commentId) => {
+const createCommentComplain = async (id) => {
   try {
     const response = await axios.patch(
       'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
       null,
       {
         params: {
-          commentId: commentId,
+          commentId: id,
         },
       }
     );
@@ -208,35 +208,31 @@ const deleteComment = async (commentId, comment) => {
 <Divider style={{ margin: '20px 5vw' }} />
   </Grid>
   <Box paddingBottom="100px">
-  {data.comments && data.comments.map((comment, index) => (
-  <div key={index}>
-      <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
-        
-        <Grid item marginLeft="6vw">
-          <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold'}}  align="left">
-            Re: {comment.nickName}
-          </Typography>
-          <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }}  align="left">
-            {comment.content}
-          </Typography>
-          <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
-          {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
-          </Typography>
+  {data.comments && data.comments.map((comment, index) => {
+    console.log('Comment ID:', comment.id); // 콘솔에 commentId 출력
+    return (
+      <div key={index}>
+        <Grid container alignItems="center" justifyContent="flex-start" marginTop="20px" marginLeft="20px">
+          <Grid item marginLeft="6vw">
+            <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E', fontWeight: 'bold' }} align="left">
+              Re: {comment.nickName}
+            </Typography>
+            <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }} align="left">
+              {comment.content}
+            </Typography>
+            <Typography style={{ marginLeft: '15px', fontSize: '20px', color: '#757474' }}>
+              {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
+            </Typography>
+            <ButtonGroup variant="outlined" aria-label="outlined button group">
+              <Button onClick={() => deleteComment(comment.id, comment)}>삭제</Button>
+              <Button onClick={() => createCommentComplain(comment.id)}>신고하기</Button>
+            </ButtonGroup>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid  >
-      <Grid container justifyContent="flex-end" paddingRight="10vw" marginBottom="30px">
-  <ButtonGroup  
-  variant="outlined"
-  aria-label="outlined button group">
-    <Button onClick={deleteComment}>삭제</Button>
-    <Button onClick={createCommentComplain} >신고하기</Button>
-  </ButtonGroup>
-</Grid>
-<Divider style={{ margin: '20px 5vw' }} />
-  </Grid>
-  </div>
-))}
+        <Divider style={{ margin: '20px 5vw' }} />
+      </div>
+    );
+  })}
 </Box>
 
   <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '110px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
@@ -266,6 +262,7 @@ const deleteComment = async (commentId, comment) => {
       },
     }}
   />
+
 </Box>
 
 
