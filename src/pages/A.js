@@ -83,7 +83,7 @@ class Submit extends Component {
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
-   const { value: additionalConditions } = steps['add-message'] || {};
+    const { value: additionalConditions } = steps.additionalConditions || {};
 
     // 데이터 형식 변환
     const data = {
@@ -109,7 +109,7 @@ class Submit extends Component {
   render() {
     return (
       <div>
-        결과
+       결과
       </div>
     );
   }
@@ -205,9 +205,13 @@ class A extends Component {
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            component: <Submit/>,
-            
+            component: 'Submit',
+          
           },
+          {
+            id: 'Submit',
+            component: <Submit />,
+          }
          
         ]}
       />
