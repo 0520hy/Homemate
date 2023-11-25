@@ -130,7 +130,8 @@ class MyChatbot extends Component {
   render() {
     
     return (
-      <ChatBot floating={true}
+      <ThemeProvider theme={theme}>
+      <ChatBot floating={false}
         steps={[
           {
             id: '1',
@@ -226,6 +227,7 @@ class MyChatbot extends Component {
          
         ]}
       />
+      </ThemeProvider>
     );
   }
 }
