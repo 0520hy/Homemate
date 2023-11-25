@@ -2,6 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
+import { ThemeProvider } from 'styled-components';
+
+const theme = {
+  background: '#f5f8fb',
+  fontFamily: 'Helvetica Neue',
+  headerBgColor: '#5280F7',
+  headerFontColor: '#fff',
+  headerFontSize: '15px',
+  botBubbleColor: '#D9D9D9',
+  botFontColor: '#fff',
+  userBubbleColor: '#CED5E8',
+  userFontColor: '#4a4a4a',
+};
 
 //리뷰
 class Review extends Component {
@@ -117,7 +130,7 @@ class MyChatbot extends Component {
   render() {
     
     return (
-      <ChatBot floating
+      <ChatBot floating={true}
         steps={[
           {
             id: '1',
