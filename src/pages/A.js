@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
 
+//리뷰
 class Review extends Component {
   constructor(props) {
     super(props);
@@ -65,10 +66,11 @@ Review.defaultProps = {
   steps: undefined,
 };
 
+//post
+class Submit extends Component {
+  handleSubmit = async (event) => {
+    event.preventDefault(); // 기본 동작 막기
 
-
-class A extends Component {
-  handleSubmit = async () => {
     const { steps, triggerNextStep } = this.props;
     if (!steps) return; // steps 객체가 없는 경우 처리
 
@@ -99,6 +101,18 @@ class A extends Component {
       console.error(error);
     }
   };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleSubmit}>확인</button>
+      </div>
+    );
+  }
+}
+
+class A extends Component {
+
   render() {
     
     return (
@@ -201,10 +215,9 @@ class A extends Component {
           },
           {
             id: '17',
-            component: (
-              <button onClick={this.handleSubmit}> 추천 매물 확인하기</button>
-            )
-          }
+            component: <Submit />,
+            Message: true,
+          },
          
         ]}
       />
