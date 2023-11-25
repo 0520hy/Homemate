@@ -13,39 +13,18 @@ class Review extends Component {
       location: '',
       price: '',
       scope: '',
-      additionalConditions: '',
     };
   }
 
   componentWillMount() {
     const { steps } = this.props;
-    const { building, residentail, location, price, scope, additionalConditions } = steps;
+    const { building, residentail, location, price, scope} = steps;
 
-    this.setState({ building, residentail, location, price, scope, additionalConditions });
+    this.setState({ building, residentail, location, price, scope });
   }
 
-  handleSubmit = async () => {
-    const { building, residentail, location, price, scope, additionalConditions } = this.state;
-    const data = {
-      building: building.value,
-      residentail: residentail.value,
-      location: location.value,
-      price: price.value,
-      scope: scope.value,
-      additionalConditions: additionalConditions.value,
-    };
-
-    try {
-      const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
-      // POST 요청 성공 시 처리할 로직 작성
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   render() {
-    const { building, residentail, location, price, scope, additionalConditions } = this.state;
+    const { building, residentail, location, price, scope } = this.state;
     return (
       <div style={{ width: '100%' }}>
         <h4>사용자 희망 조건</h4>
@@ -71,13 +50,8 @@ class Review extends Component {
               <td>전용 면적: </td>
               <td>{scope.value}</td>
             </tr>
-            <tr>
-              <td>추가 조건: </td>
-              <td>{additionalConditions.value}</td>
-            </tr>
           </tbody>
         </table>
-        <button onClick={this.handleSubmit}>결과 확인</button>
       </div>
     );
   }
@@ -90,9 +64,59 @@ Review.propTypes = {
 Review.defaultProps = {
   steps: undefined,
 };
+class Submit extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      responseData: '', // 응답 값 저장을 위한 상태 변수
+    };
+  }
+
+  handleSubmit = async () => {
+    const { steps } = this.props;
+    const { building, residentail, location, price, scope, additionalConditions } = steps;
+    
+    // 데이터 형식 변환
+    const data = {
+      building: building.value,
+      residentail: residentail.value,
+      location: location.value,
+      price: parseInt(price.value),
+      scope: parseInt(scope.value),
+      additionalConditions: additionalConditions.value,
+    };
+
+    try {
+      const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
+      // POST 요청 성공 시 처리할 로직 작성
+      console.log(response.data);
+      // 응답 값을 상태 변수에 저장
+      this.setState({ responseData: response.data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  render() {
+    const { responseData } = this.state;
+
+    return (
+      <div>
+        <button onClick={this.handleSubmit}>결과 확인</button>
+        {responseData && <p>{responseData}</p>}
+      </div>
+    );
+  }
+}
+
+
+
 
 class A extends Component {
+  
   render() {
+    
     return (
       <ChatBot
         steps={[
@@ -151,35 +175,47 @@ class A extends Component {
           {
             id: 'scope',
             user: true,
+            trigger: 'review',
+          },
+         
+          {
+            id: 'review',
+            component: <Review />,
+            Message: true,
+            trigger: '12',
+          },
+          {
+            id: '12',
+            message: ' 추가로 원하는 조건이 있으신가요?  ',
             trigger: 'additional-conditions',
           },
+          
           {
             id: 'additional-conditions',
             options: [
               { value: 'yes', label: '네', trigger: 'add-message' },
               { value: 'no', label: '아니요', trigger: 'wait-message' },
             ],
+            
           },
           {
             id: 'add-message',
             message: '추가로 원하는 조건을 문장으로 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!)',
-            trigger: 'additional-conditions-input',
-          },
-          {
-            id: 'additional-conditions-input',
-            user: true,
-            trigger: 'review',
+            trigger:'16'
+            
           },
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
+            component: <Submit />,
           },
           {
-            id: 'review',
-            component: <Review />,
-            asMessage: true,
-            trigger: 'add-message',
-          },
+            id: '16',
+            user: true,
+            trigger: 'add-message'
+
+          }
+         
         ]}
       />
     );
