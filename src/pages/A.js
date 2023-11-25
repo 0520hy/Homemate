@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
+import axios from 'axios';
 
 class Review extends Component {
   constructor(props) {
@@ -12,18 +13,39 @@ class Review extends Component {
       location: '',
       price: '',
       scope: '',
+      additionalConditions: '',
     };
   }
 
   componentWillMount() {
     const { steps } = this.props;
-    const { building, residentail, location, price, scope} = steps;
+    const { building, residentail, location, price, scope, additionalConditions } = steps;
 
-    this.setState({ building, residentail, location, price, scope });
+    this.setState({ building, residentail, location, price, scope, additionalConditions });
   }
 
+  handleSubmit = async () => {
+    const { building, residentail, location, price, scope, additionalConditions } = this.state;
+    const data = {
+      building: building.value,
+      residentail: residentail.value,
+      location: location.value,
+      price: price.value,
+      scope: scope.value,
+      additionalConditions: additionalConditions.value,
+    };
+
+    try {
+      const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
+      // POST 요청 성공 시 처리할 로직 작성
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   render() {
-    const { building, residentail, location, price, scope } = this.state;
+    const { building, residentail, location, price, scope, additionalConditions } = this.state;
     return (
       <div style={{ width: '100%' }}>
         <h4>사용자 희망 조건</h4>
@@ -49,8 +71,13 @@ class Review extends Component {
               <td>전용 면적: </td>
               <td>{scope.value}</td>
             </tr>
+            <tr>
+              <td>추가 조건: </td>
+              <td>{additionalConditions.value}</td>
+            </tr>
           </tbody>
         </table>
+        <button onClick={this.handleSubmit}>결과 확인</button>
       </div>
     );
   }
@@ -124,47 +151,35 @@ class A extends Component {
           {
             id: 'scope',
             user: true,
+            trigger: 'additional-conditions',
+          },
+          {
+            id: 'additional-conditions',
+            options: [
+              { value: 'yes', label: '네', trigger: 'add-message' },
+              { value: 'no', label: '아니요', trigger: 'wait-message' },
+            ],
+          },
+          {
+            id: 'add-message',
+            message: '추가로 원하는 조건을 문장으로 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!)',
+            trigger: 'additional-conditions-input',
+          },
+          {
+            id: 'additional-conditions-input',
+            user: true,
             trigger: 'review',
           },
-         
+          {
+            id: 'wait-message',
+            message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
+          },
           {
             id: 'review',
             component: <Review />,
             asMessage: true,
             trigger: '12',
           },
-          {
-            id: '12',
-            message: ' 추가로 원하는 조건이 있으신가요?  ',
-            trigger: 'additional-conditions',
-          },
-          
-          {
-            id: 'additional-conditions',
-            options: [
-              { value: '네', label: 'Yes', trigger: 'add-message' },
-              { value: '아니요', label: 'No', trigger: 'wait-message' },
-            ],
-            
-          },
-          {
-            id: 'add-message',
-            message: '추가로 원하는 조건을 문장으로 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!)',
-            trigger:'16'
-            
-          },
-          {
-            id: 'wait-message',
-            message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            
-          },
-          {
-            id: '16',
-            message: 'true',
-            trigger: '12'
-
-          }
-         
         ]}
       />
     );
