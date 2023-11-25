@@ -81,23 +81,23 @@ export default function Article() {
   };
 
     //신고하기 댓글 api
-    const createCommentComplain = async () => {
-      try {
-        const response = await axios.patch(
-          'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
-          null,
-          {
-            params: {
-              articleId: articleId,
-            },
-          }
-        );
-        // API 호출 성공 시 알림창 표시
-        alert('신고가 완료되었습니다.');
-      } catch (error) {
-        console.error(error);
+const createCommentComplain = async (commentId) => {
+  try {
+    const response = await axios.patch(
+      'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
+      null,
+      {
+        params: {
+          commentId: commentId,
+        },
       }
-    };
+    );
+    // API 호출 성공 시 알림창 표시
+    alert('신고가 완료되었습니다.');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // 게시글 삭제 api
 const deleteArticle = async () => {
