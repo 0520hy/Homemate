@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
 
-//리뷰
+// 리뷰
 class Review extends Component {
   constructor(props) {
     super(props);
@@ -14,18 +14,19 @@ class Review extends Component {
       location: '',
       price: '',
       scope: '',
+      additionalConditions: [],
     };
   }
 
   componentWillMount() {
     const { steps } = this.props;
-    const { building, residentail, location, price, scope} = steps;
+    const { building, residentail, location, price, scope, additionalConditions } = steps;
 
-    this.setState({ building, residentail, location, price, scope });
+    this.setState({ building, residentail, location, price, scope, additionalConditions });
   }
 
   render() {
-    const { building, residentail, location, price, scope } = this.state;
+    const { building, residentail, location, price, scope, additionalConditions } = this.state;
     return (
       <div style={{ width: '100%' }}>
         <h4>사용자 희망 조건</h4>
@@ -51,6 +52,10 @@ class Review extends Component {
               <td>전용 면적: </td>
               <td>{scope.value}</td>
             </tr>
+            <tr>
+              <td>추가 조건: </td>
+              <td>{additionalConditions.value.join(', ')}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -66,23 +71,22 @@ Review.defaultProps = {
   steps: undefined,
 };
 
-//post
+// POST
 class Submit extends Component {
   handleSubmit = async (event) => {
     console.log('Button clicked');
     event.preventDefault(); // 기본 동작 막기
-    
+
     const { steps, triggerNextStep } = this.props;
     if (!steps) return; // steps 객체가 없는 경우 처리
-    
+
     const { value: building } = steps.building || {};
     const { value: residentail } = steps.residentail || {};
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
-    const { value: additionalConditions } = steps.additionalConditions || {};
+    const { value: additionalConditions } = steps.additionalConditions || [];
 
-    
     // 데이터 형식 변환
     const data = {
       building: building || '',
@@ -90,7 +94,7 @@ class Submit extends Component {
       location: location || '',
       price: parseInt(price) || 0,
       scope: parseInt(scope) || 0,
-      additionalConditions: additionalConditions || '',
+      additionalConditions: additionalConditions || [],
     };
     console.log(data); // 여기에 추가
     try {
@@ -102,21 +106,19 @@ class Submit extends Component {
     } catch (error) {
       console.error(error);
     }
-    };
+  };
 
   render() {
     return (
       <div>
-       <button onClick={this.handleSubmit}>확인</button>
+        <button onClick={this.handleSubmit}>확인</button>
       </div>
     );
   }
 }
 
 class A extends Component {
-
   render() {
-    
     return (
       <ChatBot
         steps={[
@@ -128,7 +130,7 @@ class A extends Component {
           {
             id: 'building',
             user: true,
-            trigger: '3'
+            trigger: '3',
           },
           {
             id: '3',
@@ -142,7 +144,7 @@ class A extends Component {
           },
           {
             id: '5',
-            message: '서울/성남 범위 이내 원하는 지역을 선택해주세요.(예시: 경기도 성남시 복정동) 만약 여러 지역을 원하시면 띄어쓰기로 구분해서 입력해주세요.',
+            message: '서울/성남 범위 이내 원하는 지역을 선택해주세요. (예시: 경기도 성남시 복정동) 만약 여러 지역을 원하시면 띄어쓰기로 구분해서 입력해주세요.',
             trigger: 'location',
           },
           {
@@ -168,50 +170,51 @@ class A extends Component {
           {
             id: 'scope',
             user: true,
-            trigger: 'review',
-          },
-         
-          {
-            id: 'review',
-            component: <Review />,
-            Message: true,
-            trigger: '12', 
-          },
-          {
-            id: '12',
-            message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
             trigger: 'additionalConditions',
           },
-          
           {
             id: 'additionalConditions',
             user: true,
-            trigger: '14',     
+            trigger: '14',
+            validator: (value) => {
+              if (!value) {
+                return '추가 조건을 입력해주세요.';
+              }
+              const { steps } = this.props;
+              const { additionalConditions } = steps;
+              const updatedAdditionalConditions = additionalConditions ? [...additionalConditions.value, value] : [value];
+              this.props.updateSteps({
+                additionalConditions: {
+                  value: updatedAdditionalConditions,
+                  trigger: '14',
+                },
+              });
+              return true;
+            },
           },
           {
             id: '14',
             message: '추가로 원하시는 조건이 있으신가요?',
-            trigger:'optional'
-            
+            trigger: 'optional',
           },
           {
-            id: "optional",
+            id: 'optional',
             options: [
-              { value: 'yes', label: '네', trigger: '12' },
-              { value: 'no', label: '아니요', trigger: 'wait-message' },]
+              { value: 'yes', label: '네', trigger: 'additionalConditions' },
+              { value: 'no', label: '아니요', trigger: 'wait-message' },
+            ],
           },
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            component: <Submit/>,
-            trigger: '17'
+            component: <Submit />,
+            trigger: '17',
           },
           {
             id: '17',
             component: <Submit />,
             Message: true,
           },
-         
         ]}
       />
     );
