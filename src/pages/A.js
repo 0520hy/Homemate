@@ -126,12 +126,8 @@ class A extends Component {
           },
           {
             id: 'building',
-            options: [
-              { value: '아파트', label: '아파트', trigger: '3' },
-              { value: '빌라', label: '빌라', trigger: '3' },
-              { value: '원룸', label: '원룸', trigger: '3' },
-              { value: '오피스텔', label: '오피스텔', trigger: '3' },
-            ],
+            user: true,
+            trigger: '3'
           },
           {
             id: '3',
@@ -140,11 +136,8 @@ class A extends Component {
           },
           {
             id: 'residentail',
-            options: [
-              { value: '매매', label: '매매', trigger: '5' },
-              { value: '전세', label: '전세', trigger: '5' },
-              { value: '월세', label: '월세', trigger: '5' },
-            ],
+            user: true,
+            trigger: '5',
           },
           {
             id: '5',
