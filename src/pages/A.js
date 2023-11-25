@@ -84,14 +84,14 @@ class Submit extends Component {
 
     // 데이터 형식 변환
     const data = {
-      building: parseInt(building) || 0,
-      residentail: parseInt(residentail) || 0,
+      building: parseInt(building) || '',
+      residentail: parseInt(residentail) || '',
       location: location || '',
       price: parseInt(price) || 0,
       scope: parseInt(scope) || 0,
       additionalConditions: additionalConditions || '',
     };
-    console.log(data); 
+    console.log(data); // 여기에 추가
     try {
       const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
       // POST 요청 성공 시 처리할 로직 작성
@@ -121,13 +121,17 @@ class A extends Component {
         steps={[
           {
             id: '1',
-            message: '아파트/빌라/원룸/오피스텔 중 원하는 공간 형태는 무엇인가요? 단어 형태로 답변해주세요!',
+            message: '아파트/빌라/원룸/오피스텔 중 원하는 공간 형태는 무엇인가요?',
             trigger: 'building',
           },
           {
             id: 'building',
-            user: true,
-            trigger: 3
+            options: [
+              { value: '아파트', label: '아파트', trigger: '3' },
+              { value: '빌라', label: '빌라', trigger: '3' },
+              { value: '원룸', label: '원룸', trigger: '3' },
+              { value: '오피스텔', label: '오피스텔', trigger: '3' },
+            ],
           },
           {
             id: '3',
@@ -136,8 +140,11 @@ class A extends Component {
           },
           {
             id: 'residentail',
-            user: true,
-            trigger: '5',
+            options: [
+              { value: '매매', label: '매매', trigger: '5' },
+              { value: '전세', label: '전세', trigger: '5' },
+              { value: '월세', label: '월세', trigger: '5' },
+            ],
           },
           {
             id: '5',
@@ -167,14 +174,14 @@ class A extends Component {
           {
             id: 'scope',
             user: true,
-            trigger: 'wait-message',
+            trigger: 'review',
           },
          
           {
             id: 'review',
             component: <Review />,
             Message: true,
-            trigger: '12',
+            trigger: 'wait-message', // 수정
           },
           {
             id: '12',
