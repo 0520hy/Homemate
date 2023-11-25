@@ -134,7 +134,8 @@ class MyChatbot extends Component {
       
       <ThemeProvider theme={theme}>
       <ChatBot 
-      enableCloseButton 
+      floating
+      CloseButton 
        headerTitle="HOMEMATE CHATBOT"
         steps={[
           {
