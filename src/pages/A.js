@@ -70,16 +70,23 @@ Review.defaultProps = {
 class A extends Component {
   handleSubmit = async () => {
     const { steps, triggerNextStep } = this.props;
-    const { building, residentail, location, price, scope, additionalConditions } = steps;
+    if (!steps) return; // steps 객체가 없는 경우 처리
+
+    const { value: building } = steps.building || {};
+    const { value: residentail } = steps.residentail || {};
+    const { value: location } = steps.location || {};
+    const { value: price } = steps.price || {};
+    const { value: scope } = steps.scope || {};
+    const { value: additionalConditions } = steps['add-message'] || {};
 
     // 데이터 형식 변환
     const data = {
-      building: building?.value || '',
-      residentail: residentail?.value || '',
-      location: location?.value || '',
-      price: parseInt(price?.value) || 0,
-      scope: parseInt(scope?.value) || 0,
-      additionalConditions: additionalConditions?.value || '',
+      building: parseInt(building) || 0,
+      residentail: parseInt(residentail) || 0,
+      location: location || '',
+      price: parseInt(price) || 0,
+      scope: parseInt(scope) || 0,
+      additionalConditions: additionalConditions || '',
     };
 
     try {
@@ -92,7 +99,6 @@ class A extends Component {
       console.error(error);
     }
   };
-
   render() {
     
     return (
