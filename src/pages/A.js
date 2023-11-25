@@ -185,23 +185,26 @@ class A extends Component {
           },
           {
             id: '12',
-            message: ' 추가로 원하는 조건이 있으신가요?  ',
-            trigger: 'additional-conditions',
+            message: '추가로 원하는 조건이 있으신가요? 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
+            trigger: '13',
           },
           
           {
-            id: 'additional-conditions',
-            options: [
-              { value: 'yes', label: '네', trigger: 'add-message' },
-              { value: 'no', label: '아니요', trigger: 'wait-message' },
-            ],
-            
+            id: '13',
+            user: true,
+            trigger: '14',     
           },
           {
             id: 'add-message',
-            message: '추가로 원하는 조건을 문장으로 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!)',
-            trigger:'16'
+            message: '추가로 원하시는 조건이 있으신가요?',
+            trigger:'optional'
             
+          },
+          {
+            id: "optional",
+            options: [
+              { value: 'yes', label: '네', trigger: '19' },
+              { value: 'no', label: '아니요', trigger: 'wait-message' },]
           },
           {
             id: 'wait-message',
@@ -209,13 +212,17 @@ class A extends Component {
            trigger: '17'
           },
           {
-            id: '16',
-            user: true,
-            trigger: 'add-message',
-            waitAction: true,
+            id: '17',
+            message: '원하시는 조건을 문장으로 하나씩 말씀해주세요.',
+            trigger : '18'
           },
           {
-            id: '17',
+            id: '18',
+            user : true,
+            trigger: 'add-message'
+          },
+          {
+            id: '19',
             component: <Submit />,
             Message: true,
           },
