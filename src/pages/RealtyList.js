@@ -73,12 +73,12 @@ export default function RealtyList() {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
 
-        // Check if there is a search term
+        // 검색어 없으면 아무것도 출력 안함
         const apiEndpoint = searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
 
         const response = await axios.get(apiEndpoint, {
           params: {
-            ...(searchTerm !== '' && { keyword: searchTerm }), // Add the keyword parameter only if there is a search term
+            ...(searchTerm !== '' && { keyword: searchTerm }), 
             startIndex,
             endIndex,
           },

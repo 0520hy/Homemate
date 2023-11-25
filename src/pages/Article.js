@@ -125,9 +125,9 @@ const deleteComment = async (commentId, comment) => {
     const userId = localStorage.getItem('userId');
     if (comment && userId === comment.userId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
-        params: {
+        
           commentId: commentId
-        }
+        
       });
       alert('댓글이 삭제되었습니다.');
       fetchData(); // 데이터 다시 가져오기
@@ -239,7 +239,7 @@ const deleteComment = async (commentId, comment) => {
 ))}
 </Box>
 
-  <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '70px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
+  <Box sx={{ position: 'fixed', bottom: 40, width: 'calc(100% - 200px)', height: '110px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
     id="filled-hidden-label-normal"
