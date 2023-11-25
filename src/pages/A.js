@@ -68,19 +68,22 @@ Review.defaultProps = {
 
 //post
 class Submit extends Component {
-  handleSubmit = async (event) => {
-    console.log('Button clicked'); 
-    event.preventDefault(); // 기본 동작 막기
+  componentDidMount() {
+    this.handleSubmit();
+  }
+
+  handleSubmit = async () => {
+    console.log('Button clicked');
 
     const { steps, triggerNextStep } = this.props;
-    if (!steps) return; // steps 객체가 없는 경우 처리
+    if (!steps) return;
 
     const { value: building } = steps.building || {};
     const { value: residentail } = steps.residentail || {};
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
-    // const { value: additionalConditions } = steps['add-message'] || {};
+   const { value: additionalConditions } = steps['add-message'] || {};
 
     // 데이터 형식 변환
     const data = {
@@ -89,7 +92,7 @@ class Submit extends Component {
       location: location || '',
       price: parseInt(price) || 0,
       scope: parseInt(scope) || 0,
-      // additionalConditions: additionalConditions || '',
+      additionalConditions: additionalConditions || '',
     };
     console.log(data); // 여기에 추가
     try {
@@ -97,7 +100,7 @@ class Submit extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
-      triggerNextStep({ value: response.data, trigger: '17' });
+      triggerNextStep({ value: response.data });
     } catch (error) {
       console.error(error);
     }
@@ -106,7 +109,7 @@ class Submit extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleSubmit}>확인</button>
+        결과
       </div>
     );
   }
@@ -179,16 +182,16 @@ class A extends Component {
           {
             id: '12',
             message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
-            trigger: '13',
+            trigger: 'additionalConditions',
           },
           
           {
-            id: '13',
+            id: 'additionalConditions',
             user: true,
-            trigger: 'add-message',     
+            trigger: '14',     
           },
           {
-            id: 'add-message',
+            id: '14',
             message: '추가로 원하시는 조건이 있으신가요?',
             trigger:'optional'
             
@@ -196,29 +199,14 @@ class A extends Component {
           {
             id: "optional",
             options: [
-              { value: 'yes', label: '네', trigger: '17' },
+              { value: 'yes', label: '네', trigger: '12' },
               { value: 'no', label: '아니요', trigger: 'wait-message' },]
           },
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
             component: <Submit/>,
-            trigger: '19'
-          },
-          {
-            id: '17',
-            message: '원하시는 조건을 문장으로 하나씩 말씀해주세요.',
-            trigger : '18'
-          },
-          {
-            id: '18',
-            user : true,
-            trigger: 'add-message'
-          },
-          {
-            id: '19',
-            component: <Submit />,
-            Message: true,
+            
           },
          
         ]}
