@@ -99,7 +99,7 @@ class Submit extends Component {
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
       this.setState({ response: response.data });
-      triggerNextStep({ value: response.data, trigger: '17' });
+     
     } catch (error) {
       console.error(error);
     }
