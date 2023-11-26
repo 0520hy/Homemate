@@ -120,10 +120,10 @@ const deleteArticle = async () => {
 };
 
 // 댓글 삭제 api
-const deleteComment = async (commentId) => {
+const deleteComment = async (commentId, CommentUserId) => {
   try {
     const userId = localStorage.getItem('userId');
-    if (userId === commentId.toString()) { // 작성자 권한 체크
+    if (userId === CommentUserId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
           commentId: commentId
@@ -225,7 +225,7 @@ const deleteComment = async (commentId) => {
               {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
             </Typography>
             <ButtonGroup variant="outlined" aria-label="outlined button group">
-              <Button onClick={() => deleteComment(comment.id)}>삭제</Button>
+              <Button onClick={() => deleteComment(comment.id, comment.userId)}>삭제</Button>
               <Button onClick={() => createCommentComplain(comment.id)}>신고하기</Button>
             </ButtonGroup>
           </Grid>
