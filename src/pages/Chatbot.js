@@ -84,17 +84,17 @@ class Submit extends Component {
   handleSubmit = async (event) => {
     console.log('Button clicked');
     event.preventDefault(); // 기본 동작 막기
-    
+  
     const { steps, triggerNextStep } = this.props;
     if (!steps) return; // steps 객체가 없는 경우 처리
-    
+  
     const { value: building } = steps.building || {};
     const { value: residentail } = steps.residentail || {};
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
     const { value: additionalConditions } = steps.additionalConditions || {};
-    
+  
     // 데이터 형식 변환
     const data = {
       building: building || '',
@@ -113,8 +113,9 @@ class Submit extends Component {
       triggerNextStep({ value: response.data, trigger: '17' });
     } catch (error) {
       console.error(error);
+      triggerNextStep(); // 예외 발생 시에도 다음 스텝으로 넘어가도록 처리
     }
-    };
+  };
     render() {
     
     return (
