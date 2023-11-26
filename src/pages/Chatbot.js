@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
 import { ThemeProvider } from 'styled-components';
+import { response } from 'express';
 
 const theme = {
   background: '#f5f8fb',
@@ -41,27 +42,27 @@ class Review extends Component {
     const { building, residentail, location, price, scope } = this.state;
     return (
       <div style={{ width: '100%' }}>
-        <h4>사용자 희망 조건</h4>
+        <h4>***사용자 희망 조건***</h4>
         <table>
           <tbody>
             <tr>
-              <td>공간 형태: </td>
+              <td>공간 형태:   </td>
               <td>{building.value}</td>
             </tr>
             <tr>
-              <td>주거 형태: </td>
+              <td>주거 형태:   </td>
               <td>{residentail.value}</td>
             </tr>
             <tr>
-              <td>지역: </td>
+              <td>지역:   </td>
               <td>{location.value}</td>
             </tr>
             <tr>
-              <td>금액: </td>
+              <td>금액:   </td>
               <td>{price.value}</td>
             </tr>
             <tr>
-              <td>전용 면적: </td>
+              <td>전용 면적:   </td>
               <td>{scope.value}</td>
             </tr>
           </tbody>
@@ -81,14 +82,9 @@ Review.defaultProps = {
 
 //post
 class Submit extends Component {
-
-  
-  componentDidMount() {
-    this.handleSubmit();
-  }
-
-  handleSubmit = async () => {
+  handleSubmit = async (event) => {
     console.log('Button clicked');
+    event.preventDefault(); // 기본 동작 막기
     
     const { steps, triggerNextStep } = this.props;
     if (!steps) return; // steps 객체가 없는 경우 처리
@@ -120,16 +116,27 @@ class Submit extends Component {
       console.error(error);
     }
     };
-
-  render() {
+    render() {
     
     return (
       <div>
        <button onClick={this.handleSubmit}>확인</button>
       </div>
     );
-  }
-}
+    }
+    }
+
+    class Response extends Component {
+      render(){
+
+        return (
+          <div>
+            {response.data}
+          </div>
+        )
+      }
+    }
+
 
 class MyChatbot extends Component {
 
@@ -234,7 +241,7 @@ class MyChatbot extends Component {
           },
           {
             id: '17',
-            message: '{previousValue}',
+            component: <Response/>
 
           },
          
