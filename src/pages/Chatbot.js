@@ -138,7 +138,7 @@ class Response extends Component {
     return (
       <div>
         {value &&
-          value.map((line, index) => {
+          value.split('\n').map((line, index) => {
             const linkMatch = line.match(linkRegex); // 링크 추출
             if (linkMatch) {
               // 링크가 있는 경우
