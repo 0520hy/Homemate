@@ -136,7 +136,9 @@ class Submit extends Component {
         const { value } = steps.responseData || {};
         return (
           <div>
-            {value}
+            {value && value.map((item, index) => (
+          <p key={index}>{item}</p>
+        ))}
           </div>
         );
       }
