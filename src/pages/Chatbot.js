@@ -105,7 +105,7 @@ class Submit extends Component {
     try {
       const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
       console.log(response.data);
-      triggerNextStep({ value: response.data.replace(/\n/g, ' ')});
+      triggerNextStep({ message: response.data.replace(/\n/g, ' ')});
     } catch (error) {
       console.error(error);
       triggerNextStep();
