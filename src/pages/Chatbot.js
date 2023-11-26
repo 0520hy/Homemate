@@ -81,6 +81,8 @@ Review.defaultProps = {
 
 //post
 class Submit extends Component {
+
+  
   handleSubmit = async (event) => {
     console.log('Button clicked');
     event.preventDefault(); // 기본 동작 막기
@@ -117,6 +119,7 @@ class Submit extends Component {
     };
 
   render() {
+    
     return (
       <div>
        <button onClick={this.handleSubmit}>확인</button>
@@ -228,8 +231,8 @@ class MyChatbot extends Component {
           },
           {
             id: '17',
-            component: <Submit />,
-            Message: true,
+            message: '{previousValue}',
+
           },
          
         ]}
