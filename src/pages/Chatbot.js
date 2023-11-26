@@ -220,8 +220,10 @@ class MyChatbot extends Component {
           },
           {
             id: 'end-message',
-            message: "{previousValue}",
-          },
+            component: <div>{({ previousValue }) => previousValue}</div>,
+            asMessage: true,
+            trigger: 'end',
+          }
         ]}
       />
       </ThemeProvider>
