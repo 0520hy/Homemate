@@ -120,7 +120,7 @@ class Submit extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleSubmit}>확인</button>
+        <button onClick={this.handleSubmit}>맞춤형 매물 확인</button>
       </div>
     );
   }
@@ -148,7 +148,7 @@ class Response extends Component {
                 <p key={index}>
                   {text}
                   <a href={link} target="_blank" rel="noopener noreferrer">
-                    확인해주세요.
+                    Link
                   </a>
                 </p>
               );
