@@ -110,7 +110,7 @@ class Submit extends Component {
       // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
       // 응답 값을 상태 변수에 저장
-      triggerNextStep({ value: response.data, trigger: '17' });
+      triggerNextStep({ value: response.data});
     } catch (error) {
       console.error(error);
       triggerNextStep(); // 예외 발생 시에도 다음 스텝으로 넘어가도록 처리
@@ -237,11 +237,16 @@ class MyChatbot extends Component {
           {
             id: 'wait-message',
             message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            component: <Submit/>,
-           
+            trigger: 'submit-button',
           },
           {
-            id: '17',
+            id: 'submit-button',
+            component: <Submit/>,
+            waitAction: true, // 다음 스텝으로 넘어가기 전에 사용자의 액션을 기다립니다.
+            trigger: '18',
+          },
+          {
+            id: '18',
             component: <Response/>
 
           },
