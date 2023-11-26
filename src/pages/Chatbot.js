@@ -132,8 +132,8 @@ class Submit extends Component {
       }
     
       render() {
-        const { steps } = this.props;
-        const { value } = steps.responseData || {};
+        const { previousStep } = this.props;
+        const { value } = previousStep;
         return (
           <div>
         {value && value.split('\n').map((line, index) => (
