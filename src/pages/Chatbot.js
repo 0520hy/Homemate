@@ -1,4 +1,4 @@
-import React, { Component, useState  } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
@@ -16,7 +16,6 @@ const theme = {
   userFontColor: '#4a4a4a',
 };
 
-//리뷰
 class Review extends Component {
   constructor(props) {
     super(props);
@@ -79,14 +78,13 @@ Review.defaultProps = {
   steps: undefined,
 };
 
-//post
 class Submit extends Component {
   handleSubmit = async (event) => {
     console.log('Button clicked');
-    event.preventDefault(); // 기본 동작 막기
+    event.preventDefault();
   
     const { steps, triggerNextStep } = this.props;
-    if (!steps) return; // steps 객체가 없는 경우 처리
+    if (!steps) return;
   
     const { value: building } = steps.building || {};
     const { value: residentail } = steps.residentail || {};
@@ -95,7 +93,6 @@ class Submit extends Component {
     const { value: scope } = steps.scope || {};
     const { value: additionalConditions } = steps.additionalConditions || {};
   
-    // 데이터 형식 변환
     const data = {
       building: building || '',
       residentail: residentail || '',
@@ -104,46 +101,24 @@ class Submit extends Component {
       scope: parseInt(scope) || 0,
       additionalConditions: additionalConditions || '',
     };
-    console.log(data); // 여기에 추가
+    console.log(data);
     try {
       const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
-      // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
-      // 응답 값을 상태 변수에 저장
-      triggerNextStep({ value: response.data});
+      triggerNextStep({ value: response.data.replace(/\n/g, ' ')});
     } catch (error) {
       console.error(error);
-      triggerNextStep(); // 예외 발생 시에도 다음 스텝으로 넘어가도록 처리
+      triggerNextStep();
     }
   };
     render() {
-    
     return (
       <div>
        <button onClick={this.handleSubmit}>확인</button>
       </div>
     );
     }
-    }
-
-    class Response extends Component {
-      constructor(props) {
-        super(props);
-      }
-    
-      render() {
-        const { previousStep } = this.props;
-        const { value } = previousStep;
-        return (
-          <div>
-        {value && value.split('\n').map((line, index) => (
-          <p key={index}>{line}</p>
-        ))}
-      </div>
-        );
-      }
-    }
-
+}
 
 class MyChatbot extends Component {
   render() {
@@ -153,8 +128,7 @@ class MyChatbot extends Component {
       floating
       botAvatar="/images/bot-avatar.png"
       userAvatar="/images/user-avatar.png"
-      
-       headerTitle="HOMEMATE CHATBOT"
+      headerTitle="HOMEMATE CHATBOT"
         steps={[
           {
             id: '1',
@@ -206,11 +180,9 @@ class MyChatbot extends Component {
             user: true,
             trigger: 'review',
           },
-         
           {
             id: 'review',
             component: <Review />,
-            Message: true,
             trigger: '12', 
           },
           {
@@ -218,7 +190,6 @@ class MyChatbot extends Component {
             message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
             trigger: 'additionalConditions',
           },
-          
           {
             id: 'additionalConditions',
             user: true,
@@ -228,13 +199,13 @@ class MyChatbot extends Component {
             id: '14',
             message: '추가로 원하시는 조건이 있으신가요?',
             trigger:'optional'
-            
           },
           {
             id: "optional",
             options: [
               { value: 'yes', label: '네', trigger: '12' },
-              { value: 'no', label: '아니요', trigger: 'wait-message' },]
+              { value: 'no', label: '아니요', trigger: 'wait-message' },
+            ]
           },
           {
             id: 'wait-message',
@@ -244,15 +215,13 @@ class MyChatbot extends Component {
           {
             id: 'submit-button',
             component: <Submit/>,
-            waitAction: true, // 다음 스텝으로 넘어가기 전에 사용자의 액션을 기다립니다.
-            trigger: '18',
+            waitAction: true,
+            trigger: 'end-message',
           },
           {
-            id: '18',
-            component: <Response/>
-
+            id: 'end-message',
+            message: "{previousValue}",
           },
-         
         ]}
       />
       </ThemeProvider>
