@@ -130,15 +130,13 @@ class Submit extends Component {
       constructor(props) {
         super(props);
       }
-
+    
       render() {
         const { steps } = this.props;
         const { value } = steps.responseData || {};
         return (
           <div>
-            {value && value.map((item, index) => (
-          <p key={index}>{item}</p>
-        ))}
+            {value}
           </div>
         );
       }
