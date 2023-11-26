@@ -138,7 +138,7 @@ class Response extends Component {
     return (
       <div>
         {value &&
-          value.split('\n').map((line, index) => {
+          value.map((line, index) => {
             const linkMatch = line.match(linkRegex); // 링크 추출
             if (linkMatch) {
               // 링크가 있는 경우
@@ -170,6 +170,7 @@ class MyChatbot extends Component {
           floating
           botAvatar="/images/bot-avatar.png"
           userAvatar="/images/user-avatar.png"
+          floatingIcon="/images/logo.png"
           headerTitle="HOMEMATE CHATBOT"
           steps={[
             {
@@ -229,26 +230,26 @@ class MyChatbot extends Component {
             },
             {
               id: '12',
-              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!)',
+              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요! 단, 문장 끝에 온점을 꼭 찍어주세요 :) (예시: 학교가 가까운 곳이면 좋겠어요.)',
               trigger: 'additionalConditions',
             },
             {
               id: 'additionalConditions',
               user: true,
-              trigger: '14',
+              trigger: 'wait-message',
             },
-            {
-              id: '14',
-              message: '추가로 원하시는 조건이 있으신가요?',
-              trigger: 'optional',
-            },
-            {
-              id: 'optional',
-              options: [
-                { value: 'yes', label: '네', trigger: '12' },
-                { value: 'no', label: '아니요', trigger: 'wait-message' },
-              ],
-            },
+            // {
+            //   id: '14',
+            //   message: '추가로 원하시는 조건이 있으신가요?',
+            //   trigger: 'optional',
+            // },
+            // {
+            //   id: 'optional',
+            //   options: [
+            //     { value: 'yes', label: '네', trigger: '12' },
+            //     { value: 'no', label: '아니요', trigger: 'wait-message' },
+            //   ],
+            // },
             {
               id: 'wait-message',
               message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
@@ -258,10 +259,10 @@ class MyChatbot extends Component {
               id: 'submit-button',
               component: <Submit />,
               waitAction: true,
-              trigger: '18',
+              trigger: '16',
             },
             {
-              id: '18',
+              id: '16',
               component: <Response />,
              
             },
