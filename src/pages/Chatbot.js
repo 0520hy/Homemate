@@ -136,8 +136,10 @@ class Submit extends Component {
         const { value } = steps.responseData || {};
         return (
           <div>
-            {value}
-          </div>
+        {value && value.split('\n').map((line, index) => (
+          <p key={index}>{line}</p>
+        ))}
+      </div>
         );
       }
     }
