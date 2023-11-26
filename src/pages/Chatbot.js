@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
 import { ThemeProvider } from 'styled-components';
-import { response } from 'express';
 
 const theme = {
   background: '#f5f8fb',
@@ -127,24 +126,25 @@ class Submit extends Component {
     }
 
     class Response extends Component {
-      render(){
+      constructor(props) {
+        super(props);
+      }
 
+      render() {
+        const { steps } = this.props;
+        const { value } = steps.responseData || {};
         return (
           <div>
-            {response.data}
+            {value}
           </div>
-        )
+        );
       }
     }
 
 
 class MyChatbot extends Component {
-
   render() {
-    
     return (
-      
-      
       <ThemeProvider theme={theme}>
       <ChatBot 
       floating
