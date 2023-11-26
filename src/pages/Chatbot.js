@@ -16,6 +16,7 @@ const theme = {
   userFontColor: '#4a4a4a',
 };
 
+// 리뷰
 class Review extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +32,7 @@ class Review extends Component {
 
   componentWillMount() {
     const { steps } = this.props;
-    const { building, residentail, location, price, scope} = steps;
+    const { building, residentail, location, price, scope } = steps;
 
     this.setState({ building, residentail, location, price, scope });
   }
@@ -78,21 +79,23 @@ Review.defaultProps = {
   steps: undefined,
 };
 
+// POST
 class Submit extends Component {
   handleSubmit = async (event) => {
     console.log('Button clicked');
-    event.preventDefault();
-  
+    event.preventDefault(); // 기본 동작 막기
+
     const { steps, triggerNextStep } = this.props;
-    if (!steps) return;
-  
+    if (!steps) return; // steps 객체가 없는 경우 처리
+
     const { value: building } = steps.building || {};
     const { value: residentail } = steps.residentail || {};
     const { value: location } = steps.location || {};
     const { value: price } = steps.price || {};
     const { value: scope } = steps.scope || {};
     const { value: additionalConditions } = steps.additionalConditions || {};
-  
+
+    // 데이터 형식 변환
     const data = {
       building: building || '',
       residentail: residentail || '',
@@ -101,131 +104,169 @@ class Submit extends Component {
       scope: parseInt(scope) || 0,
       additionalConditions: additionalConditions || '',
     };
-    console.log(data);
+    console.log(data); // 여기에 추가
     try {
       const response = await axios.post('http://ceprj.gachon.ac.kr:60015/model', data);
+      // POST 요청 성공 시 처리할 로직 작성
       console.log(response.data);
-      triggerNextStep({ message: response.data.replace(/\n/g, ' ')});
+      // 응답 값을 상태 변수에 저장
+      triggerNextStep({ value: response.data });
     } catch (error) {
       console.error(error);
-      triggerNextStep();
+      triggerNextStep(); // 예외 발생 시에도 다음 스텝으로 넘어가도록 처리
     }
   };
-    render() {
+
+  render() {
     return (
       <div>
-       <button onClick={this.handleSubmit}>확인</button>
+        <button onClick={this.handleSubmit}>확인</button>
       </div>
     );
-    }
+  }
+}
+
+class Response extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { previousStep } = this.props;
+    const { value } = previousStep;
+    const linkRegex = /(http:\/\/[^\s]+)/gi; // 링크 추출 정규 표현식
+    return (
+      <div>
+        {value &&
+          value.split('\n').map((line, index) => {
+            const linkMatch = line.match(linkRegex); // 링크 추출
+            if (linkMatch) {
+              // 링크가 있는 경우
+              const link = linkMatch[0];
+              const text = line.replace(linkRegex, '').trim(); // 링크 제외한 텍스트
+              return (
+                <p key={index}>
+                  {text}
+                  <a href={link} target="_blank" rel="noopener noreferrer">
+                    확인해주세요.
+                  </a>
+                </p>
+              );
+            } else {
+              // 링크가 없는 경우
+              return <p key={index}>{line}</p>;
+            }
+          })}
+      </div>
+    );
+  }
 }
 
 class MyChatbot extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-      <ChatBot 
-      floating
-      botAvatar="/images/bot-avatar.png"
-      userAvatar="/images/user-avatar.png"
-      headerTitle="HOMEMATE CHATBOT"
-        steps={[
-          {
-            id: '1',
-            message: '아파트/빌라/원룸/오피스텔 중 원하는 공간 형태는 무엇인가요?',
-            trigger: 'building',
-          },
-          {
-            id: 'building',
-            user: true,
-            trigger: '3'
-          },
-          {
-            id: '3',
-            message: '매매/전세/월세 중 원하는 주거 형태는 무엇인가요? 단어 형태로 답변해주세요!',
-            trigger: 'residentail',
-          },
-          {
-            id: 'residentail',
-            user: true,
-            trigger: '5',
-          },
-          {
-            id: '5',
-            message: '서울/성남 범위 이내 원하는 지역을 선택해주세요.(예시: 경기도 성남시 복정동) 만약 여러 지역을 원하시면 띄어쓰기로 구분해서 입력해주세요.',
-            trigger: 'location',
-          },
-          {
-            id: 'location',
-            user: true,
-            trigger: '7',
-          },
-          {
-            id: '7',
-            message: '희망하는 가격대를 알려주세요. (만원 단위로 숫자로 입력) 월세의 경우 보증금/월세(예시: 3000/50) 형태로 입력해주세요!',
-            trigger: 'price',
-          },
-          {
-            id: 'price',
-            user: true,
-            trigger: '9',
-          },
-          {
-            id: '9',
-            message: '원하시는 전용면적을 알려주세요. 단, 숫자만 입력해주세요',
-            trigger: 'scope',
-          },
-          {
-            id: 'scope',
-            user: true,
-            trigger: 'review',
-          },
-          {
-            id: 'review',
-            component: <Review />,
-            trigger: '12', 
-          },
-          {
-            id: '12',
-            message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요.  (예시: 근처에 편의점이 있었으면 좋겠어요!)',
-            trigger: 'additionalConditions',
-          },
-          {
-            id: 'additionalConditions',
-            user: true,
-            trigger: '14',     
-          },
-          {
-            id: '14',
-            message: '추가로 원하시는 조건이 있으신가요?',
-            trigger:'optional'
-          },
-          {
-            id: "optional",
-            options: [
-              { value: 'yes', label: '네', trigger: '12' },
-              { value: 'no', label: '아니요', trigger: 'wait-message' },
-            ]
-          },
-          {
-            id: 'wait-message',
-            message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
-            trigger: 'submit-button',
-          },
-          {
-            id: 'submit-button',
-            component: <Submit/>,
-            waitAction: true,
-            trigger: 'end-message',
-          },
-          {
-            id: 'end-message',
-            component: <div>{({ previousValue }) => previousValue}</div>,
-            asMessage: true,
-            trigger: 'end',
-          }
-        ]}
-      />
+        <ChatBot
+          floating
+          botAvatar="/images/bot-avatar.png"
+          userAvatar="/images/user-avatar.png"
+          headerTitle="HOMEMATE CHATBOT"
+          steps={[
+            {
+              id: '1',
+              message: '아파트/빌라/원룸/오피스텔 중 원하는 공간 형태는 무엇인가요?',
+              trigger: 'building',
+            },
+            {
+              id: 'building',
+              user: true,
+              trigger: '3',
+            },
+            {
+              id: '3',
+              message: '매매/전세/월세 중 원하는 주거 형태는 무엇인가요? 단어 형태로 답변해주세요!',
+              trigger: 'residentail',
+            },
+            {
+              id: 'residentail',
+              user: true,
+              trigger: '5',
+            },
+            {
+              id: '5',
+              message: '서울/성남 범위 이내 원하는 지역을 선택해주세요. (예시: 경기도 성남시 복정동) 만약 여러 지역을 원하시면 띄어쓰기로 구분해서 입력해주세요.',
+              trigger: 'location',
+            },
+            {
+              id: 'location',
+              user: true,
+              trigger: '7',
+            },
+            {
+              id: '7',
+              message: '희망하는 가격대를 알려주세요. (만원 단위로 숫자로 입력) 월세의 경우 보증금/월세(예시: 3000/50) 형태로 입력해주세요!',
+              trigger: 'price',
+            },
+            {
+              id: 'price',
+              user: true,
+              trigger: '9',
+            },
+            {
+              id: '9',
+              message: '원하시는 전용면적을 알려주세요. 단, 숫자만 입력해주세요',
+              trigger: 'scope',
+            },
+            {
+              id: 'scope',
+              user: true,
+              trigger: 'review',
+            },
+            {
+              id: 'review',
+              component: <Review />,
+              trigger: '12',
+            },
+            {
+              id: '12',
+              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요. (예시: 근처에 편의점이 있었으면 좋겠어요!)',
+              trigger: 'additionalConditions',
+            },
+            {
+              id: 'additionalConditions',
+              user: true,
+              trigger: '14',
+            },
+            {
+              id: '14',
+              message: '추가로 원하시는 조건이 있으신가요?',
+              trigger: 'optional',
+            },
+            {
+              id: 'optional',
+              options: [
+                { value: 'yes', label: '네', trigger: '12' },
+                { value: 'no', label: '아니요', trigger: 'wait-message' },
+              ],
+            },
+            {
+              id: 'wait-message',
+              message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
+              trigger: 'submit-button',
+            },
+            {
+              id: 'submit-button',
+              component: <Submit />,
+              waitAction: true,
+              trigger: '18',
+            },
+            {
+              id: '18',
+              component: <Response />,
+              asMessage: true,
+            },
+          ]}
+        />
       </ThemeProvider>
     );
   }
