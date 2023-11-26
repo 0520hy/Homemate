@@ -263,7 +263,7 @@ class MyChatbot extends Component {
             {
               id: '18',
               component: <Response />,
-              asMessage: true,
+             
             },
           ]}
         />
