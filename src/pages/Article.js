@@ -257,7 +257,7 @@ const deleteComment = async (commentId, CommentUserId) => {
     }}
     InputProps={{
       style: {
-        height: '50px', // 텍스트 박스의 높이 조정
+        height: '80px', // 텍스트 박스의 높이 조정
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
