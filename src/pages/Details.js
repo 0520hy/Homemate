@@ -45,8 +45,7 @@ export default function Details(props) {
             overflow: 'auto',
           }}
         >
-          <Toolbar />
-          
+         
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
             <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
