@@ -80,7 +80,7 @@ export default function Article() {
     }
   };
 
-    //신고하기 댓글 api
+     //신고하기 댓글 api
 const createCommentComplain = async (id) => {
   try {
     const response = await axios.patch(
@@ -98,6 +98,7 @@ const createCommentComplain = async (id) => {
     console.error(error);
   }
 };
+
 
 // 게시글 삭제 api
 const deleteArticle = async () => {
@@ -120,13 +121,13 @@ const deleteArticle = async () => {
 };
 
 // 댓글 삭제 api
-const deleteComment = async (commentId, CommentUserId) => {
+const deleteComment = async (id) => {
   try {
     const userId = localStorage.getItem('userId');
-    if (userId === CommentUserId.toString()) { // 작성자 권한 체크
+    if (userId === data.userId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
-          commentId: commentId
+          commentId: id
         }
       });
       alert('댓글이 삭제되었습니다.');
@@ -138,6 +139,8 @@ const deleteComment = async (commentId, CommentUserId) => {
     console.error(error);
   }
 };
+
+
 
 
 

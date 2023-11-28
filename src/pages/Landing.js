@@ -15,6 +15,7 @@ const Image = styled('img')({
   width: '100%',
   height: '100%',
   objectFit: 'cover',
+  boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)',
 });
 
 const BoldText = styled('h1')({

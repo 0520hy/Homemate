@@ -234,7 +234,7 @@ class MyChatbot extends Component {
             },
             {
               id: '12',
-              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요! 단, 문장 끝에 온점을 꼭 찍어주세요 :) (예시: 학교가 가까운 곳이면 좋겠어요.)',
+              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요! 단, 문장 사이에 쉼표를 찍어주세요 :) (예시: 학교가 가까운 곳이면 좋겠어요.)',
               trigger: 'additionalConditions',
             },
             {
@@ -242,18 +242,7 @@ class MyChatbot extends Component {
               user: true,
               trigger: 'wait-message',
             },
-            // {
-            //   id: '14',
-            //   message: '추가로 원하시는 조건이 있으신가요?',
-            //   trigger: 'optional',
-            // },
-            // {
-            //   id: 'optional',
-            //   options: [
-            //     { value: 'yes', label: '네', trigger: '12' },
-            //     { value: 'no', label: '아니요', trigger: 'wait-message' },
-            //   ],
-            // },
+           
             {
               id: 'wait-message',
               message: '사용자님 맞춤형 매물을 추천해드릴게요! 잠시만 기다려주세요...',
