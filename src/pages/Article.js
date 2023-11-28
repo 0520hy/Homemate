@@ -146,19 +146,14 @@ const deleteComment = async (commentId, CommentUserId) => {
   
   return (
     <>
-    
-      <Grid container marginLeft="5vw">
-        <Grid item marginTop="20px">
+    <Grid item marginTop="20px">
           <ArrowBackIcon
           onClick={handleGoBack}
             style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
           />
           
         </Grid>
-      
-        
-<Container>
-  <Grid container justifyContent="center" alignItems="center" marginTop="40px">
+        <Grid container justifyContent="center" alignItems="center" marginTop="40px">
     <Grid item>
       <EditNoteIcon style={{ color: '#1976d2', fontSize: 60, marginRight: '10px' }} />
     </Grid>
@@ -168,6 +163,12 @@ const deleteComment = async (commentId, CommentUserId) => {
       </Typography>
     </Grid>
   </Grid>
+          <Grid container maxWidth="lg" marginLeft="5vw">
+        
+      
+        
+<Container>
+  
 
         {/* 게시글 */}
         <Grid container direction="row" alignItems="center" justifyContent="flex-start" marginTop="80px" marginLeft="20px">
