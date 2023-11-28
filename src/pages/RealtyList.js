@@ -66,31 +66,30 @@ export default function RealtyList() {
   const navigate = useNavigate();
  
 
-  // 컴포넌트 마운트 후 건물 목록 가져오기
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
+ // 컴포넌트 마운트 후 건물 목록 가져오기
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
 
-        // 검색어 없으면 아무것도 출력 안함
-        const apiEndpoint = searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
+      // 검색어 없으면 아무것도 출력 안함
+      const apiEndpoint = searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
 
-        const response = await axios.get(apiEndpoint, {
-          params: {
-            ...(searchTerm !== '' && { keyword: searchTerm }), 
-            startIndex,
-            endIndex,
-          },
-        });
+      const response = await axios.get(apiEndpoint, {
+        params: {
+          startIndex,
+          endIndex,
+        },
+      });
 
-        setBuildingList(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [currentPage, itemsPerPage, searchTerm]);
+      setBuildingList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchData();
+}, [currentPage, itemsPerPage]); // searchTerm 의존성 제거
 
   // 현재 페이지 아이템
   const getCurrentItems = () => {
