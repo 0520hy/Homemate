@@ -146,7 +146,7 @@ const deleteComment = async (commentId, CommentUserId) => {
   
   return (
     <>
-    <Grid item marginTop="20px" justifyContent="flex-start">
+    <Grid contianer item marginTop="20px" justifyContent="flex-start">
           <ArrowBackIcon
           onClick={handleGoBack}
             style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
@@ -238,7 +238,7 @@ const deleteComment = async (commentId, CommentUserId) => {
   })}
 </Box>
 
-  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)',  height: '60px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
+<Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)', height: 'auto', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
     id="filled-hidden-label-normal"
@@ -246,28 +246,35 @@ const deleteComment = async (commentId, CommentUserId) => {
     variant="filled"
     multiline
     fullWidth
-    height="auto"
     size="small"
-
-    value={commentContent} // 입력 값과 상태 연결
-    onChange={(e) => setCommentContent(e.target.value)} // 입력 이벤트 처리
+    rows={4} // 텍스트 박스의 기본 행 수
+    value={commentContent}
+    onChange={(e) => setCommentContent(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault(); // 기본 엔터 동작 방지
+        createComment(); // 엔터를 눌렀을 때 댓글 생성 함수 호출
+      }
+    }}
     InputProps={{
-      style: { height: '120px' },
       endAdornment: (
         <InputAdornment position="end">
-          <IconButton onClick={createComment}> 
+          <IconButton onClick={createComment}>
             <SendIcon />
           </IconButton>
-          </InputAdornment>
+        </InputAdornment>
       ),
     }}
     sx={{
       '& .MuiFilledInput-root': {
-        backgroundColor: 'lightgray', // 배경색을 회색으로 설정
+        backgroundColor: 'lightgray',
+        fontSize: '20px', // 텍스트 크기 조정
+        '&::placeholder': {
+          fontSize: '20px', // placeholder 크기 조정
+        },
       },
     }}
   />
-
 </Box>
 
 
