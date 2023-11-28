@@ -148,7 +148,7 @@ const deleteComment = async (commentId, CommentUserId) => {
     <>
     
       <Grid container maxWidth="lg" marginLeft="5vw">
-        <Grid item>
+        <Grid item marginTop="20px">
           <ArrowBackIcon
           onClick={handleGoBack}
             style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
@@ -158,7 +158,7 @@ const deleteComment = async (commentId, CommentUserId) => {
       
         
 <Container>
-  <Grid marginLeft="7vw" container justifyContent="center" alignItems="center" marginTop="40px">
+  <Grid container justifyContent="center" alignItems="center" marginTop="40px">
     <Grid item>
       <EditNoteIcon style={{ color: '#1976d2', fontSize: 60, marginRight: '10px' }} />
     </Grid>
@@ -221,7 +221,7 @@ const deleteComment = async (commentId, CommentUserId) => {
             <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }} align="left">
               {comment.content}
             </Typography>
-            <Typography style={{ marginLeft: '15px', textAlign: 'left', fontSize: '20px', color: '#757474' }}>
+            <Typography style={{ marginLeft: '20px', textAlign: 'left', fontSize: '20px', color: '#757474' }}>
               {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
             </Typography>
            
