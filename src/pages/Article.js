@@ -247,7 +247,6 @@ const deleteComment = async (commentId, CommentUserId) => {
     multiline
     fullWidth
     size="small"
-    rows={4} // 텍스트 박스의 기본 행 수
     value={commentContent}
     onChange={(e) => setCommentContent(e.target.value)}
     onKeyDown={(e) => {
@@ -257,6 +256,12 @@ const deleteComment = async (commentId, CommentUserId) => {
       }
     }}
     InputProps={{
+      style: {
+        height: '50px', // 텍스트 박스의 높이 조정
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
       endAdornment: (
         <InputAdornment position="end">
           <IconButton onClick={createComment}>
@@ -271,11 +276,14 @@ const deleteComment = async (commentId, CommentUserId) => {
         fontSize: '20px', // 텍스트 크기 조정
         '&::placeholder': {
           fontSize: '20px', // placeholder 크기 조정
+          textAlign: 'center', // placeholder 가운데 정렬
+          paddingTop: '5px', // placeholder 위쪽 여백 추가
         },
       },
     }}
   />
 </Box>
+
 
 
     </>
