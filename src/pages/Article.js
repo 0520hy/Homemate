@@ -81,24 +81,24 @@ export default function Article() {
   };
 
     //신고하기 댓글 api
-    const createCommentComplain = async (id) => {
-      try {
-        const response = await axios.patch(
-          'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
-          null,
-          {
-            params: {
-              commentId: id,
-            },
-          }
-        );
-        // API 호출 성공 시 알림창 표시
-        alert('신고가 완료되었습니다.');
-      } catch (error) {
-        console.error(error);
+const createCommentComplain = async (id) => {
+  try {
+    const response = await axios.patch(
+      'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
+      null,
+      {
+        params: {
+          commentId: id,
+        },
       }
-    };
-    
+    );
+    // API 호출 성공 시 알림창 표시
+    alert('신고가 완료되었습니다.');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 
 // 게시글 삭제 api
@@ -228,11 +228,9 @@ const deleteComment = async (commentId, CommentUserId) => {
           </Grid>
         </Grid>
         <Grid container justifyContent="flex-end" paddingRight="10vw" marginBottom="30px">
-            <ButtonGroup  
-            variant="outlined"
-            aria-label="outlined button group">
-              <Button onClick={deleteComment}>삭제</Button>
-              <Button  onClick={createCommentComplain}>신고하기</Button>
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+              <Button onClick={() => deleteComment(comment.id, comment.userId)}>삭제</Button>
+              <Button onClick={() => createCommentComplain(comment.id)}>신고하기</Button>
             </ButtonGroup>
           </Grid>
         <Divider style={{ margin: '20px 5vw' }} />
