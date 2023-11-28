@@ -30,11 +30,7 @@ export default function Details(props) {
   return (
     <>
     <ThemeProvider theme={defaultTheme}>
-    <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
-    <ArrowBackIcon
-    onClick={handleGoBack}
-    style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
-  </Grid>
+    
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Box
@@ -50,9 +46,14 @@ export default function Details(props) {
           }}
         >
           <Toolbar />
+          
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-           
+            <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
+            <ArrowBackIcon
+            onClick={handleGoBack}
+            style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
+          </Grid>
              <Swiper buildingName={buildingName}/>
               {/* Recent Orders */}
               <Grid item xs={12}>
