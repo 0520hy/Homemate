@@ -170,8 +170,8 @@ class MyChatbot extends Component {
           floating
           botAvatar="/images/bot-avatar.png"
           userAvatar="/images/user-avatar.png"
-          floatingIcon="/images/logo.png"
-          floatingStyle={{width:"80px", height:"80px"}}
+          floatingIcon="/logo512.png"
+          floatingStyle={{width:"100px", height:"100px"}}
           headerTitle="HOMEMATE CHATBOT"
           steps={[
             {
