@@ -171,6 +171,7 @@ class MyChatbot extends Component {
           botAvatar="/images/bot-avatar.png"
           userAvatar="/images/user-avatar.png"
           floatingIcon="/images/logo.png"
+          floatingStyle={{width:"45px"}}
           headerTitle="HOMEMATE CHATBOT"
           steps={[
             {
@@ -205,7 +206,7 @@ class MyChatbot extends Component {
             },
             {
               id: '7',
-              message: '희망하는 가격대를 알려주세요. (만원 단위로 숫자로 입력) 월세의 경우 보증금/월세(예시: 3000/50) 형태로 입력해주세요!',
+              message: '희망하는 가격대를 알려주세요. (만원 단위로 숫자로 입력) 월세의 경우 보증금,월세(예시: 3000,50) 형태로 입력해주세요!',
               trigger: 'price',
             },
             {
