@@ -117,34 +117,33 @@ export default function RealtyList() {
     setCurrentPage(page);
   };
 
-  // 검색 api call
-  const search = async () => {
-    try {
-      setIsSearching(true); // 검색 중 상태로 설정
-      const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
-        params: {
-          keyword: searchTerm,
-        },
-      });
-      setBuildingList(response.data);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        alert('검색 결과가 없습니다');
-      } else {
-        console.error(error);
-      }
-    } finally {
-      setIsSearching(false); // 검색 완료 후 상태 변경
+ // 검색 api call
+const search = async () => {
+  try {
+    setIsSearching(true); // 검색 중 상태로 설정
+    const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+      params: {
+        keyword: searchTerm,
+      },
+    });
+    setBuildingList(response.data);
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      alert('검색 결과가 없습니다');
+    } else {
+      console.error(error);
     }
-  };
-
-  // 검색 입력 (엔터) 핸들러
-  const handleSearchKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      search();
-    }
-  };
+  } finally {
+    setIsSearching(false); // 검색 완료 후 상태 변경
+  }
+};
+// 검색 입력 (엔터) 핸들러
+const handleSearchKeyPress = (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    search();
+  }
+};
   
   const handleGoBack = () => {
     navigate(-1);
