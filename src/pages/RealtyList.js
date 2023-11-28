@@ -66,32 +66,29 @@ export default function RealtyList() {
  
 
   // 컴포넌트 마운트 후 건물 목록 가져오기
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll', {
-          params: {
-            startIndex,
-            endIndex,
-          },
-        });
-        setBuildingList(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [currentPage, itemsPerPage]);
-
-  // 현재 페이지 아이템
-  const getCurrentItems = () => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return buildingList.slice(indexOfFirstItem, indexOfLastItem);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll');
+      setBuildingList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+  fetchData();
+}, []);
 
+// 현재 페이지 아이템
+const getCurrentItems = () => {
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  return buildingList.slice(indexOfFirstItem, indexOfLastItem);
+};
+
+// 페이지 변경 핸들러
+const handlePageChange = (event, page) => {
+  setCurrentPage(page);
+};
   // 건물 가격 텍스트
   const getPriceText = (building) => {
     let priceText = '';
@@ -105,10 +102,6 @@ export default function RealtyList() {
     return `${building.transactionType} ${priceText}`;
   };
 
-  // 페이지 변경 핸들러
-  const handlePageChange = (event, page) => {
-    setCurrentPage(page);
-  };
 
   // 검색 api call
   const search = async () => {
