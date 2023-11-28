@@ -66,29 +66,29 @@ export default function RealtyList() {
   const navigate = useNavigate();
  
 
-// 컴포넌트 마운트 후 건물 목록 가져오기
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
 
-      // 검색어 없으면 아무것도 출력 안함
-      const apiEndpoint =
-        searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
+        // 검색어 없으면 아무것도 출력 안함
+        const apiEndpoint =
+          searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
 
-      const response = await axios.get(apiEndpoint, {
-        params: {
-          startIndex,
-          endIndex,
-        },
-      });
+        const response = await axios.get(apiEndpoint, {
+          params: {
+            startIndex,
+            endIndex,
+          },
+        });
 
-      setBuildingList(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        setBuildingList(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   // 검색어가 입력된 상태에서는 fetchData 함수 호출하지 않음
   if (!isSearching) {
@@ -222,12 +222,14 @@ const handleSearchKeyPress = (event) => {
               </React.Fragment>
             ))
           ) : (
-            <div style={{ padding: '20px', margin: '10px' }}>
-            <img src="/images/Realtybot.png" alt="" style={{ width: '40%', paddingTop: '50px' }} />
-          </div>
+            searchTerm === '' && !isSearching && (
+              <div style={{ padding: '20px', margin: '10px' }}>
+                <img src="/images/Realtybot.png" alt="" style={{ width: '40%', paddingTop: '50px' }} />
+              </div>
+            )
           )}
 
-         {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
+          {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
             <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
               <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
             </Grid>
