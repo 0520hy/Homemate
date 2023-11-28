@@ -234,7 +234,7 @@ class MyChatbot extends Component {
             },
             {
               id: '12',
-              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요! 단, 문장 사이에 쉼표를 찍어주세요 :) (예시: 학교가 가까운 곳이면 좋겠어요.)',
+              message: '추가로 원하는 조건 문장으로 하나씩 말씀해주세요! 단, 문장 사이에 쉼표를 찍어주세요 :) (예시: 남향이면 좋겠어요, 학교가 가까운 곳이면 좋겠어요)',
               trigger: 'additionalConditions',
             },
             {
