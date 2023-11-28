@@ -227,7 +227,7 @@ const handleSearchKeyPress = (event) => {
           </div>
           )}
 
-          {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
+         {searchTerm !== '' && !isSearching && buildingList.length > itemsPerPage && (
             <Grid sx={{ justifyContent: 'center', marginTop: '20px' }}>
               <Pagination count={Math.ceil(buildingList.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
             </Grid>
