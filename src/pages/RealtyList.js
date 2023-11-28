@@ -72,9 +72,9 @@ useEffect(() => {
     try {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-
-      // 검색어 없으면 아무것도 출력 안함
-      const apiEndpoint = searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
+     
+      const apiEndpoint =
+        searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
 
       const response = await axios.get(apiEndpoint, {
         params: {
@@ -88,9 +88,12 @@ useEffect(() => {
       console.error(error);
     }
   };
-  fetchData();
-}, [currentPage, itemsPerPage]); // searchTerm 의존성 제거
 
+  // 검색어가 입력된 상태에서는 fetchData 함수 호출
+  if (!isSearching) {
+    fetchData();
+  }
+}, [currentPage, itemsPerPage, searchTerm, isSearching]);
   // 현재 페이지 아이템
   const getCurrentItems = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
