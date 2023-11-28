@@ -178,7 +178,7 @@ const deleteComment = async (commentId, CommentUserId) => {
     <Typography variant="body1" style={{ marginLeft: '15px', fontSize: '30px', color: '#4F4E4E' }}>
       {data.nickName}
     </Typography>
-    <Typography style={{ fontSize: '20px', color: '#757474' }}>
+    <Typography style={{ textAlign: 'left', fontSize: '20px', color: '#757474' }}>
     {data.createAt && new Date(data.createAt[0], data.createAt[1] - 1, data.createAt[2]).toLocaleDateString()}
     </Typography> 
   </Grid>
@@ -221,7 +221,7 @@ const deleteComment = async (commentId, CommentUserId) => {
             <Typography style={{ marginLeft: '15px', fontSize: '25px', color: '#4F4E4E' }} align="left">
               {comment.content}
             </Typography>
-            <Typography style={{  fontSize: '20px', color: '#757474' }}>
+            <Typography style={{ textAlign: 'left', fontSize: '20px', color: '#757474' }}>
               {comment.createAt && new Date(comment.createAt[0], comment.createAt[1] - 1, comment.createAt[2]).toLocaleDateString()}
             </Typography>
             <Grid container justifyContent="flex-end" paddingRight="10vw" marginBottom="60px">
@@ -248,7 +248,7 @@ const deleteComment = async (commentId, CommentUserId) => {
     variant="filled"
     multiline
     fullWidth
-    height="60px"
+    height="120px"
     size="small"
 
     value={commentContent} // 입력 값과 상태 연결
