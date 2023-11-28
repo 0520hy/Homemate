@@ -80,24 +80,25 @@ export default function Article() {
     }
   };
 
-     //신고하기 댓글 api
-const createCommentComplain = async (id) => {
-  try {
-    const response = await axios.patch(
-      'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
-      null,
-      {
-        params: {
-          commentId: id,
-        },
+    //신고하기 댓글 api
+    const createCommentComplain = async (id) => {
+      try {
+        const response = await axios.patch(
+          'http://ceprj.gachon.ac.kr:60014/comment/addComplain',
+          null,
+          {
+            params: {
+              commentId: id,
+            },
+          }
+        );
+        // API 호출 성공 시 알림창 표시
+        alert('신고가 완료되었습니다.');
+      } catch (error) {
+        console.error(error);
       }
-    );
-    // API 호출 성공 시 알림창 표시
-    alert('신고가 완료되었습니다.');
-  } catch (error) {
-    console.error(error);
-  }
-};
+    };
+    
 
 
 // 게시글 삭제 api
@@ -121,13 +122,13 @@ const deleteArticle = async () => {
 };
 
 // 댓글 삭제 api
-const deleteComment = async (id) => {
+const deleteComment = async (commentId, CommentUserId) => {
   try {
     const userId = localStorage.getItem('userId');
-    if (userId === data.userId.toString()) { // 작성자 권한 체크
+    if (userId === CommentUserId.toString()) { // 작성자 권한 체크
       await axios.delete('http://ceprj.gachon.ac.kr:60014/comment/delete', {
         params: {
-          commentId: id
+          commentId: commentId
         }
       });
       alert('댓글이 삭제되었습니다.');
@@ -139,6 +140,7 @@ const deleteComment = async (id) => {
     console.error(error);
   }
 };
+
 
 
 
