@@ -66,13 +66,14 @@ export default function RealtyList() {
   const navigate = useNavigate();
  
 
- // 컴포넌트 마운트 후 건물 목록 가져오기
+// 컴포넌트 마운트 후 건물 목록 가져오기
 useEffect(() => {
   const fetchData = async () => {
     try {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-     
+
+      // 검색어 없으면 아무것도 출력 안함
       const apiEndpoint =
         searchTerm !== '' ? 'http://ceprj.gachon.ac.kr:60014/building/search' : 'http://ceprj.gachon.ac.kr:60014/building/getAll';
 
@@ -89,18 +90,18 @@ useEffect(() => {
     }
   };
 
-  // 검색어가 입력된 상태에서는 fetchData 함수 호출
+  // 검색어가 입력된 상태에서는 fetchData 함수 호출하지 않음
   if (!isSearching) {
     fetchData();
   }
 }, [currentPage, itemsPerPage, searchTerm, isSearching]);
-  // 현재 페이지 아이템
-  const getCurrentItems = () => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return buildingList.slice(indexOfFirstItem, indexOfLastItem);
-  };
 
+// 현재 페이지 아이템
+const getCurrentItems = () => {
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  return buildingList.slice(indexOfFirstItem, indexOfLastItem);
+};
   // 건물 가격 텍스트
   const getPriceText = (building) => {
     let priceText = '';
