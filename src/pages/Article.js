@@ -146,7 +146,7 @@ const deleteComment = async (commentId, CommentUserId) => {
   
   return (
     <>
-    <Grid item marginTop="20px">
+    <Grid item marginTop="20px" justifyContent="flex-start">
           <ArrowBackIcon
           onClick={handleGoBack}
             style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
@@ -163,13 +163,9 @@ const deleteComment = async (commentId, CommentUserId) => {
       </Typography>
     </Grid>
   </Grid>
-          <Grid container maxWidth="lg" marginLeft="5vw">
-        
-      
-        
-<Container>
-  
 
+          <Grid container maxWidth="lg" marginLeft="5vw">
+        <Container>
         {/* 게시글 */}
         <Grid container direction="row" alignItems="center" justifyContent="flex-start" marginTop="80px" marginLeft="20px">
   <Grid item>
@@ -242,7 +238,7 @@ const deleteComment = async (commentId, CommentUserId) => {
   })}
 </Box>
 
-  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)',  height: '120px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
+  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)',  height: '60px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
     id="filled-hidden-label-normal"
@@ -250,12 +246,13 @@ const deleteComment = async (commentId, CommentUserId) => {
     variant="filled"
     multiline
     fullWidth
-    height="120px"
+    height="auto"
     size="small"
 
     value={commentContent} // 입력 값과 상태 연결
     onChange={(e) => setCommentContent(e.target.value)} // 입력 이벤트 처리
     InputProps={{
+      style: { height: '120px' },
       endAdornment: (
         <InputAdornment position="end">
           <IconButton onClick={createComment}> 
