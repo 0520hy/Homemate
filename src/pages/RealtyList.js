@@ -64,9 +64,7 @@ export default function RealtyList() {
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
   const [isSearching, setIsSearching] = useState(false); // 검색 중 여부 상태
   const navigate = useNavigate();
- 
 
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -90,18 +88,19 @@ export default function RealtyList() {
       }
     };
 
-  // 검색어가 입력된 상태에서는 fetchData 함수 호출하지 않음
-  if (!isSearching) {
-    fetchData();
-  }
-}, [currentPage, itemsPerPage, searchTerm, isSearching]);
+    // 검색어가 입력된 상태에서만 fetchData 함수 호출
+    if (searchTerm !== '' && !isSearching) {
+      fetchData();
+    }
+  }, [currentPage, itemsPerPage, searchTerm, isSearching]);
 
-// 현재 페이지 아이템
-const getCurrentItems = () => {
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  return buildingList.slice(indexOfFirstItem, indexOfLastItem);
-};
+  // 현재 페이지 아이템
+  const getCurrentItems = () => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return buildingList.slice(indexOfFirstItem, indexOfLastItem);
+  };
+
   // 건물 가격 텍스트
   const getPriceText = (building) => {
     let priceText = '';
@@ -120,46 +119,43 @@ const getCurrentItems = () => {
     setCurrentPage(page);
   };
 
- // 검색 api call
-const search = async () => {
-  try {
-    setIsSearching(true); // 검색 중 상태로 설정
-    const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
-      params: {
-        keyword: searchTerm,
-      },
-    });
-    setBuildingList(response.data);
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      alert('검색 결과가 없습니다');
-    } else {
-      console.error(error);
+  // 검색 api call
+  const search = async () => {
+    try {
+      setIsSearching(true); // 검색 중 상태로 설정
+      const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/search', {
+        params: {
+          keyword: searchTerm,
+        },
+      });
+      setBuildingList(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        alert('검색 결과가 없습니다');
+      } else {
+        console.error(error);
+      }
+    } finally {
+      setIsSearching(false); // 검색 완료 후 상태 변경
     }
-  } finally {
-    setIsSearching(false); // 검색 완료 후 상태 변경
-  }
-};
-// 검색 입력 (엔터) 핸들러
-const handleSearchKeyPress = (event) => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    search();
-  }
-};
-  
+  };
+
+  // 검색 입력 (엔터) 핸들러
+  const handleSearchKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      search();
+    }
+  };
+
   const handleGoBack = () => {
     navigate(-1);
   };
-  
 
   return (
     <>
       <Grid container alignItems="center" justifyContent="flex-start" margin="30px">
-        <ArrowBackIcon
-          onClick={handleGoBack}
-          style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }}
-        />
+        <ArrowBackIcon onClick={handleGoBack} style={{ fontSize: 50, color: '#4F4E4E', cursor: 'pointer' }} />
       </Grid>
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
