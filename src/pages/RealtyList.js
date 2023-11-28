@@ -65,18 +65,20 @@ export default function RealtyList() {
   const navigate = useNavigate();
  
 
-  // 컴포넌트 마운트 후 건물 목록 가져오기
+ // 컴포넌트 마운트 후 첫 페이지의 건물 목록 가져오기
 useEffect(() => {
   const fetchData = async () => {
     try {
       const response = await axios.get('http://ceprj.gachon.ac.kr:60014/building/getAll');
       setBuildingList(response.data);
+      setCurrentPage(1); // 첫 페이지로 설정
     } catch (error) {
       console.error(error);
     }
   };
   fetchData();
 }, []);
+
 
 // 현재 페이지 아이템
 const getCurrentItems = () => {
