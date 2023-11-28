@@ -147,7 +147,7 @@ const deleteComment = async (commentId, CommentUserId) => {
   return (
     <>
     
-      <Grid container maxWidth="lg" marginLeft="5vw">
+      <Grid container marginLeft="5vw">
         <Grid item marginTop="20px">
           <ArrowBackIcon
           onClick={handleGoBack}
@@ -241,7 +241,7 @@ const deleteComment = async (commentId, CommentUserId) => {
   })}
 </Box>
 
-  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)', height: '60px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
+  <Box sx={{ position: 'fixed', bottom: 10, width: 'calc(100% - 200px)',  height: '120px', marginLeft: 'auto', marginRight: 'auto', left: 0, right: 0 }}>
   <TextField
     hiddenLabel
     id="filled-hidden-label-normal"
