@@ -222,7 +222,7 @@ const deleteComment = async (commentId, CommentUserId) => {
            
           </Grid>
         </Grid>
-        <Grid container justifyContent="flex-end" paddingRight="10vw" marginBottom="60px">
+        <Grid container justifyContent="flex-end" paddingRight="10vw" marginBottom="30px">
             <ButtonGroup  
             variant="outlined"
             aria-label="outlined button group">
