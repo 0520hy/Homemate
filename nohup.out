@@ -1,0 +1,34 @@
+
+> graduate-project@0.1.0 start
+> react-scripts start
+
+(node:2103692) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2103692) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Compiled successfully!
+
+You can now view graduate-project in the browser.
+
+  http://localhost:60006
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+
+> graduate-project@0.1.0 start
+> react-scripts start
+
+Something is already running on port 60006.
+
+> graduate-project@0.1.0 start
+> react-scripts start
+
+Something is already running on port 60006.
+
+> graduate-project@0.1.0 start
+> react-scripts start
+
+Something is already running on port 60006.
