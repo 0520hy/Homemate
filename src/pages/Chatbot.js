@@ -100,7 +100,7 @@ class Submit extends Component {
       building: building || '',
       residentail: residentail || '',
       location: location || '',
-      price: parseInt(price) || 0,
+      price: price || 0,
       scope: parseInt(scope) || 0,
       additionalConditions: additionalConditions || '',
     };
