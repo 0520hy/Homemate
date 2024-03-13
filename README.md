@@ -19,6 +19,8 @@
 #### 🔹개발기간
 2023/09/01 ~ 23/12/08
 
+
+
 <hr>
 
  ### 🔷 기술스택
@@ -31,6 +33,8 @@
 - MUI / styled components
 
 <br>
+<hr>
+
 
 ### 🔷 화면 구성
 
@@ -40,20 +44,11 @@
 | 메인   | 로그인   |
 | ![image](https://github.com/0520hy/Homemate/assets/103192902/3f34277f-3484-4c9d-93f3-993eab7eadaa) | ![image](https://github.com/0520hy/Homemate/assets/103192902/f29ab165-2d7b-47be-9192-e13b6d48f65b) |
 | 온보딩   | 가이드   |
-| ![image](https://github.com/0520hy/Homemate/assets/103192902/0f39fc22-961c-43e3-8d7b-76259d0bc250)| ![image](https://github.com/0520hy/Homemate/assets/103192902/01d672da-1fac-4823-ae65-a3b78ffc79e0)
-  |
+| ![image](https://github.com/0520hy/Homemate/assets/103192902/0f39fc22-961c-43e3-8d7b-76259d0bc250)| ![image](https://github.com/0520hy/Homemate/assets/103192902/01d672da-1fac-4823-ae65-a3b78ffc79e0) |
 | 챗봇   | 전체 매물   |
-| ![image](https://github.com/0520hy/Homemate/assets/103192902/480131ce-1c5c-49ec-8439-d8cf57d55905)
-   | ![image](https://github.com/0520hy/Homemate/assets/103192902/8df54260-abf9-42d9-919b-6a67ff079594)
-   |
+| ![image](https://github.com/0520hy/Homemate/assets/103192902/480131ce-1c5c-49ec-8439-d8cf57d55905) | ![image](https://github.com/0520hy/Homemate/assets/103192902/8df54260-abf9-42d9-919b-6a67ff079594)  |
 | 매물 상세  | 커뮤니티   |
-| 셀3   | 셀4   |
+| ![image](https://github.com/0520hy/Homemate/assets/103192902/e2529213-2a10-4417-a605-48b5eacfe267) | ![image](https://github.com/0520hy/Homemate/assets/103192902/5f0591e1-304e-4264-832e-46d67cd99db6) |
 | 커뮤니티 - 글쓰기   | 커뮤니티 - 게시글   |
-| 셀3   | 셀4   |
-| 셀3   | 셀4   |
-| 셀3   | 셀4   |
-| 셀3   | 셀4   |
-| 셀3   | 셀4   |
-| 셀3   | 셀4   |
-| 셀3   | 셀4   |
+| ![image](https://github.com/0520hy/Homemate/assets/103192902/c84854f0-6243-4a83-a7fe-447a181323d9) | ![image](https://github.com/0520hy/Homemate/assets/103192902/c91c70b0-6a66-49f0-ac04-e19c69c03ce9) |
 
